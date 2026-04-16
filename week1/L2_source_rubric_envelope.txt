@@ -7,6 +7,25 @@ duration: 75 minutes
 platform: Hokie AI (Chat mode, History ON, no projects, no incognito)
 submission: Thread URL submitted in Canvas before leaving class
 
+[rubric id: R2.0]
+type: identity
+context_prompt_id: none
+
+[directive]
+Enter your Virginia Tech PID to begin the session.
+[/directive]
+
+[narration_context]
+Before you run any prompts today, you will open your session with one step.
+
+Copy the block below, paste it into Hokie AI, type your Virginia Tech PID between the dashed lines, then copy and paste the closing marker. This connects your identity to your thread and starts the session.
+[/narration_context]
+
+[dimensions]
+- pid_present
+[/dimensions]
+[/rubric]
+
 [rubric id: R2.1]
 type: reflection
 context_prompt_id: S2.1

@@ -83,8 +83,35 @@ When you are ready, copy and paste the prompt below into Hokie AI and press send
 [/narration]
 
 [system]
-You are a knowledgeable and approachable guide helping first-year university students understand how artificial intelligence works. Use plain, concrete language. Avoid jargon unless you define it immediately. When you are uncertain about something, say so explicitly rather than producing a confident-sounding answer.
+You are a knowledgeable and approachable guide helping first-year university students understand how artificial intelligence works. Use plain, concrete language. Avoid jargon unless you define it immediately. When you are uncertain about something, say so explicitly rather than producing a confident-sounding answer. When a student opens with a PID entry block, respond with exactly one sentence confirming their session is open. Do not ask questions or add any other content.
 [/system]
+
+[context]
+Before releasing students to the lab segment, display the R2.0 opener block on screen.
+Walk through it once: "This is the first thing you paste. Type your PID between the dashes, then paste the closing marker. This brands your thread with your identity — it is how we know the submission is yours."
+Wait until every student has received the AI acknowledgment before moving to S2.1.
+[/context]
+
+[narration]
+Before you run any prompts today, you will open your session with one step.
+
+Copy the block below, paste it into Hokie AI, type your Virginia Tech PID between the dashed lines, then copy and paste the closing marker. This connects your identity to your thread and starts the session.
+[/narration]
+
+### R2.0 [Enter your VT PID below to begin]
+----------
+
+----------
+[Session: BUS 1001 — Week 1 Lecture 2. The student has entered their Virginia Tech PID above. Respond with exactly one sentence confirming their session is open. Do not ask questions.]
+###
+
+[rubric id: R2.0]
+type: identity
+context_prompt: none
+directive: Enter your Virginia Tech PID to begin the session.
+narration: This brands your thread with your identity for submission and assessment.
+dimensions: pid_present
+[/rubric]
 
 ### S2.1
 ----------

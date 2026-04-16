@@ -251,18 +251,18 @@ def wrap_assessment_output(raw_response, student_id, contribution_id, lecture_st
     return '\n'.join(lines)
 
 
-def extract_student_id(contributions_path):
+def extract_student_id(contributions_path, contributions_text=None):
     """
-    Attempt to extract student ID from filename.
-    Expects format: <student_id>_L<N>_contributions.txt
-    Falls back to full stem if pattern not found.
+    Extract student ID preferring PID from the contributions file meta block,
+    falling back to filename stem if not found.
     """
+    if contributions_text:
+        pid_match = re.search(r'^student_pid:\s*(.+)$', contributions_text, re.MULTILINE)
+        if pid_match:
+            return pid_match.group(1).strip()
     stem = Path(contributions_path).stem
-    # Try to extract leading ID before first underscore
     parts = stem.split('_')
-    if len(parts) >= 1:
-        return parts[0]
-    return stem
+    return parts[0] if parts else stem
 
 
 # ── Main processing ──────────────────────────────────────────────────────────────
@@ -282,7 +282,7 @@ def process_one(rubric_envelope_path, contributions_path, output_dir):
         print(f"No contribution blocks found in {contributions_path}")
         return
 
-    student_id = extract_student_id(contributions_path)
+    student_id = extract_student_id(contributions_path, contributions_text)
     lecture_stem = Path(rubric_envelope_path).stem.replace('_rubric_envelope', '')
     output_dir = Path(output_dir)
     output_dir.mkdir(exist_ok=True)

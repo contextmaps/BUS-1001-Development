@@ -17,7 +17,8 @@
   --c-ins-bg: #fff0f4; --c-ins-border: #f0b8c8; --c-ins-label: #a03050;
   --c-s-bg: #f0faf4; --c-s-border: #a0d8b8; --c-s-id: #1a6b40;
   --c-r-bg: #fff8f0; --c-r-border: #f0c890; --c-r-id: #8a4a00;
-  --c-btn: #1a6b40; --c-btn-r: #8a4a00; --radius: 8px;
+  --c-i-bg: #f0f0ff; --c-i-border: #b0b0e8; --c-i-id: #3a3a9a;
+  --c-btn: #1a6b40; --c-btn-r: #8a4a00; --c-btn-i: #3a3a9a; --radius: 8px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .plib-wrap { font-family: var(--font); color: var(--c-text); max-width: 800px; margin: 0 auto; padding: 1rem 0; }
@@ -60,10 +61,16 @@
 .plib-reflect-label { color: var(--c-r-id) !important; }
 .plib-prompt-r .plib-prompt-id { color: var(--c-r-id); background: rgba(138,74,0,0.1); }
 .plib-reflect-instruction { font-size: 13px; color: var(--c-muted); font-style: italic; margin-bottom: 10px; }
+.plib-prompt-identity { background: var(--c-i-bg); border: 2px solid var(--c-i-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.plib-identity-id { color: var(--c-i-id) !important; background: rgba(58,58,154,0.1) !important; }
+.plib-identity-label { color: var(--c-i-id) !important; }
+.plib-identity-instruction { font-size: 13px; color: var(--c-muted); font-style: italic; margin-bottom: 10px; }
 .plib-copy-btn { display: inline-block; padding: 7px 14px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--c-btn); background: transparent; color: var(--c-btn); border-radius: 6px; cursor: pointer; transition: background 0.15s, color 0.15s; }
 .plib-copy-btn:hover { background: var(--c-btn); color: #fff; }
 .plib-copy-btn-reflect { border-color: var(--c-btn-r); color: var(--c-btn-r); }
 .plib-copy-btn-reflect:hover { background: var(--c-btn-r); color: #fff; }
+.plib-copy-btn-identity { border-color: var(--c-btn-i); color: var(--c-btn-i); }
+.plib-copy-btn-identity:hover { background: var(--c-btn-i); color: #fff; }
 .plib-copy-btn.copied { background: #333; color: #fff; border-color: #333; }
 </style>
 
@@ -158,8 +165,36 @@
 
 <div class="plib-system">
   <div class="plib-system-label">&#9881; Session System Prompt <span class="plib-system-note">(Instructor: paste this into Hokie AI before class begins)</span></div>
-  <div class="plib-prompt-text" id="text_system_9">You are a knowledgeable and approachable guide helping first-year university students understand how artificial intelligence works. Use plain, concrete language. Avoid jargon unless you define it immediately. When you are uncertain about something, say so explicitly rather than producing a confident-sounding answer.</div>
+  <div class="plib-prompt-text" id="text_system_9">You are a knowledgeable and approachable guide helping first-year university students understand how artificial intelligence works. Use plain, concrete language. Avoid jargon unless you define it immediately. When you are uncertain about something, say so explicitly rather than producing a confident-sounding answer. When a student opens with a PID entry block, respond with exactly one sentence confirming their session is open. Do not ask questions or add any other content.</div>
   <button class="plib-copy-btn" onclick="copyPrompt('text_system_9', this)">&#128203; Copy system prompt</button>
+</div>
+
+<div class="plib-context">
+  <div class="plib-context-label">&#9673; Instructor Note</div>
+  <div class="plib-context-body">
+    <p>Before releasing students to the lab segment, display the R2.0 opener block on screen.</p>
+    <p>Walk through it once: &quot;This is the first thing you paste. Type your PID between the dashes, then paste the closing marker. This brands your thread with your identity — it is how we know the submission is yours.&quot;</p>
+    <p>Wait until every student has received the AI acknowledgment before moving to S2.1.</p>
+  </div>
+</div>
+
+<div class="plib-narration">
+  <p>Before you run any prompts today, you will open your session with one step.</p>
+  <p>Copy the block below, paste it into Hokie AI, type your Virginia Tech PID between the dashed lines, then copy and paste the closing marker. This connects your identity to your thread and starts the session.</p>
+</div>
+
+<div class="plib-prompt-identity">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-identity-id">R2.0</span>
+    <span class="plib-prompt-type-label plib-identity-label">Session Opener</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_12">### R2.0 [Enter your VT PID below to begin]
+----------
+
+
+###</div>
+  <div class="plib-identity-instruction">Copy this block into Hokie AI. Type your VT PID between the dashed lines, then copy and paste the closing marker to start your session.</div>
+  <button class="plib-copy-btn plib-copy-btn-identity" onclick="copyPrompt('text_prompt_12', this)">&#128203; Copy session opener</button>
 </div>
 
 <div class="plib-prompt-s">
@@ -167,13 +202,13 @@
     <span class="plib-prompt-id">S2.1</span>
     <span class="plib-prompt-type-label">Student Prompt</span>
   </div>
-  <div class="plib-prompt-text" id="text_prompt_10">### S2.1
+  <div class="plib-prompt-text" id="text_prompt_14">### S2.1
 ----------
 What is the difference between a search engine and a large language model? Give me one concrete example of a task where a search engine is the better tool, and one example where a large language model is the better tool. Explain why in each case.
 ----------
 ###</div>
   <div class="plib-prompt-display">What is the difference between a search engine and a large language model? Give me one concrete example of a task where a search engine is the better tool, and one example where a large language model is the better tool. Explain why in each case.</div>
-  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_10', this)">&#128203; Copy prompt</button>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_14', this)">&#128203; Copy prompt</button>
 </div>
 
 <div class="plib-narration">
@@ -234,13 +269,13 @@ What is the difference between a search engine and a large language model? Give 
     <span class="plib-prompt-id">R2.1</span>
     <span class="plib-prompt-type-label plib-reflect-label">Your Contribution</span>
   </div>
-  <div class="plib-prompt-text" id="text_prompt_16">### R2.1 [Your response below]
+  <div class="plib-prompt-text" id="text_prompt_20">### R2.1 [Your response below]
 ----------
 
 ----------
 ###</div>
   <div class="plib-reflect-instruction">Copy the block below into Hokie AI. Type your response between the dashed lines, then copy and paste the closing marker.</div>
-  <button class="plib-copy-btn plib-copy-btn-reflect" onclick="copyPrompt('text_prompt_16', this)">&#128203; Copy contribution block</button>
+  <button class="plib-copy-btn plib-copy-btn-reflect" onclick="copyPrompt('text_prompt_20', this)">&#128203; Copy contribution block</button>
 </div>
 
 <div class="plib-narration">

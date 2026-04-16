@@ -203,11 +203,20 @@ def extract_dashed_content(raw):
     return '\n'.join(collected).strip()
 
 
+def is_identity_block(full_id):
+    """R2.0, R3.0, R4.0 etc. — any R block ending in .0 is a session opener."""
+    return re.match(r'^R\d+\.0$', full_id) is not None
+
+
 def build_student_copy_text(full_id, raw_content, label=''):
     inner = extract_dashed_content(raw_content)
     if full_id.startswith('R'):
-        # Blank line between dashes — cursor lands ready to type
-        return f"### {full_id}{' ' + label if label else ''}\n----------\n\n----------\n###"
+        if is_identity_block(full_id):
+            # Identity block: preserve inner content (includes session instruction)
+            return f"### {full_id}{' ' + label if label else ''}\n----------\n\n{inner}\n###"
+        else:
+            # Contribution block: blank line between dashes, no inner content
+            return f"### {full_id}{' ' + label if label else ''}\n----------\n\n----------\n###"
     else:
         return f"### {full_id}\n----------\n{inner}\n----------\n###"
 
@@ -236,7 +245,20 @@ def render_prompt_r(seg, block_index):
     raw = seg['content']
     copy_text = build_student_copy_text(pid, raw, label)
     bid = f"prompt_{block_index}"
-    return f'''<div class="plib-prompt-r">
+
+    if is_identity_block(pid):
+        return f'''<div class="plib-prompt-identity">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-identity-id">{escape_html(pid)}</span>
+    <span class="plib-prompt-type-label plib-identity-label">Session Opener</span>
+  </div>
+  <div class="plib-prompt-text" id="text_{bid}">{escape_html(copy_text)}</div>
+  <div class="plib-identity-instruction">Copy this block into Hokie AI. Type your VT PID between the dashed lines, then copy and paste the closing marker to start your session.</div>
+  <button class="plib-copy-btn plib-copy-btn-identity" onclick="copyPrompt('text_{bid}', this)">&#128203; Copy session opener</button>
+</div>
+'''
+    else:
+        return f'''<div class="plib-prompt-r">
   <div class="plib-prompt-header">
     <span class="plib-prompt-id">{escape_html(pid)}</span>
     <span class="plib-prompt-type-label plib-reflect-label">Your Contribution</span>
@@ -261,7 +283,8 @@ CSS = """
   --c-ins-bg: #fff0f4; --c-ins-border: #f0b8c8; --c-ins-label: #a03050;
   --c-s-bg: #f0faf4; --c-s-border: #a0d8b8; --c-s-id: #1a6b40;
   --c-r-bg: #fff8f0; --c-r-border: #f0c890; --c-r-id: #8a4a00;
-  --c-btn: #1a6b40; --c-btn-r: #8a4a00; --radius: 8px;
+  --c-i-bg: #f0f0ff; --c-i-border: #b0b0e8; --c-i-id: #3a3a9a;
+  --c-btn: #1a6b40; --c-btn-r: #8a4a00; --c-btn-i: #3a3a9a; --radius: 8px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .plib-wrap { font-family: var(--font); color: var(--c-text); max-width: 800px; margin: 0 auto; padding: 1rem 0; }
@@ -304,10 +327,16 @@ CSS = """
 .plib-reflect-label { color: var(--c-r-id) !important; }
 .plib-prompt-r .plib-prompt-id { color: var(--c-r-id); background: rgba(138,74,0,0.1); }
 .plib-reflect-instruction { font-size: 13px; color: var(--c-muted); font-style: italic; margin-bottom: 10px; }
+.plib-prompt-identity { background: var(--c-i-bg); border: 2px solid var(--c-i-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.plib-identity-id { color: var(--c-i-id) !important; background: rgba(58,58,154,0.1) !important; }
+.plib-identity-label { color: var(--c-i-id) !important; }
+.plib-identity-instruction { font-size: 13px; color: var(--c-muted); font-style: italic; margin-bottom: 10px; }
 .plib-copy-btn { display: inline-block; padding: 7px 14px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--c-btn); background: transparent; color: var(--c-btn); border-radius: 6px; cursor: pointer; transition: background 0.15s, color 0.15s; }
 .plib-copy-btn:hover { background: var(--c-btn); color: #fff; }
 .plib-copy-btn-reflect { border-color: var(--c-btn-r); color: var(--c-btn-r); }
 .plib-copy-btn-reflect:hover { background: var(--c-btn-r); color: #fff; }
+.plib-copy-btn-identity { border-color: var(--c-btn-i); color: var(--c-btn-i); }
+.plib-copy-btn-identity:hover { background: var(--c-btn-i); color: #fff; }
 .plib-copy-btn.copied { background: #333; color: #fff; border-color: #333; }
 </style>
 """

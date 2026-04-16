@@ -45,6 +45,11 @@ def extract_turns(html_path):
     return turns
 
 
+def is_identity_block(prompt_id):
+    """R2.0, R3.0 etc. — any R block ending in .0 is a session opener."""
+    return bool(re.match(r'^R\d+\.0$', prompt_id)) if prompt_id else False
+
+
 def classify_turn(role, text):
     if role == 'assistant':
         return 'assistant', None
@@ -53,9 +58,30 @@ def classify_turn(role, text):
     if s_match:
         return 'standard', f"S{s_match.group(1)}"
     elif r_match:
-        return 'contribution', f"R{r_match.group(1)}"
+        pid_str = f"R{r_match.group(1)}"
+        if is_identity_block(pid_str):
+            return 'identity', pid_str
+        return 'contribution', pid_str
     else:
         return 'context', None
+
+
+def extract_pid_from_identity_block(text, prompt_id):
+    """
+    Extract the student's PID from an identity block (R2.0).
+    Returns the PID string or None if not found or empty.
+    """
+    pattern = r'###\s+' + re.escape(prompt_id) + r'[^\n]*\n-{5,}\n(.*?)\n-{5,}'
+    match = re.search(pattern, text, re.DOTALL)
+    if match:
+        # Extract content between dashes, strip whitespace and session instruction lines
+        inner = match.group(1).strip()
+        # Remove any [Session: ...] instruction lines
+        lines = [l for l in inner.split('\n')
+                 if l.strip() and not l.strip().startswith('[Session:')]
+        pid = ' '.join(lines).strip()
+        return pid if pid else None
+    return None
 
 
 def extract_contribution_content(text, prompt_id):
@@ -69,12 +95,26 @@ def extract_contribution_content(text, prompt_id):
     return fallback.group(1).strip() if fallback else text
 
 
+def extract_student_pid(turns):
+    """Extract PID from the R*.0 identity block if present."""
+    for role, text in turns:
+        turn_type, prompt_id = classify_turn(role, text)
+        if turn_type == 'identity' and prompt_id:
+            pid = extract_pid_from_identity_block(text, prompt_id)
+            if pid:
+                return pid
+    return None
+
+
 def build_parsed_output(turns, source='chatgpt'):
     """Full archival record of all turns."""
+    student_pid = extract_student_pid(turns)
     lines = []
     lines.append('[meta]')
     lines.append(f'source: {source}')
     lines.append(f'turns: {len(turns)}')
+    if student_pid:
+        lines.append(f'student_pid: {student_pid}')
     lines.append('[/meta]')
     lines.append('')
 
@@ -86,6 +126,10 @@ def build_parsed_output(turns, source='chatgpt'):
             header = f'[turn {turn_num} | role: assistant]'
         elif turn_type == 'standard':
             header = f'[turn {turn_num} | role: user | type: standard | id: {prompt_id}]'
+        elif turn_type == 'identity':
+            pid = extract_pid_from_identity_block(text, prompt_id)
+            pid_str = f' | pid: {pid}' if pid else ''
+            header = f'[turn {turn_num} | role: user | type: identity | id: {prompt_id}{pid_str}]'
         elif turn_type == 'contribution':
             header = f'[turn {turn_num} | role: user | type: contribution | id: {prompt_id}]'
         else:
@@ -113,10 +157,15 @@ def build_contributions_output(turns, source='chatgpt'):
     Contributions-only file — assessment payload.
     Contains only the student's own thinking, keyed by ID,
     with the immediately preceding AI response included for context.
+    Identity block (R*.0) is recorded in meta but not assessed.
     """
+    student_pid = extract_student_pid(turns)
+
     lines = []
     lines.append('[meta]')
     lines.append(f'source: {source}')
+    if student_pid:
+        lines.append(f'student_pid: {student_pid}')
     contribution_count = sum(
         1 for role, text in turns
         if classify_turn(role, text)[0] == 'contribution'
