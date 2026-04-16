@@ -1,0 +1,173 @@
+
+[meta]
+course: BUS 1001 — AI Literacy
+week: 1
+lecture: 2
+title: Reading AI Output as Text — Interpretation Before Trust
+duration: 75 minutes
+platform: Hokie AI (Chat mode, History ON, no projects, no incognito)
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Analyze AI output as a constructed artifact rather than a factual authority.
+2. Apply a four-question interpretive lens to any AI response.
+3. Articulate why trust in AI must be calibrated through evidence, not assumed from fluency.
+4. Produce a short in-class reflection grounded in a real AI interaction.
+[/objectives]
+
+[context]
+SEGMENT 1 — 0 to 10 minutes
+Recap and alignment. Human-only. No Hokie AI yet.
+Briefly revisit Lecture 1 before students open their laptops.
+Key points to reinforce verbally:
+- AI predicts language. It does not retrieve truth.
+- Meaning emerges through the interaction, not from the system alone.
+Introduce today's operating principle before anything else:
+"Interpret first. Evaluate later."
+Tell students explicitly: laptops stay closed for the next ten minutes.
+[/context]
+
+[discussion]
+Recap questions — ask two or three of these verbally before opening laptops:
+
+- In one sentence: what does an LLM actually do when it responds to you?
+- Did anything from Tuesday's demonstration stay with you? What stuck, and why?
+- What is the difference between a system that understands and a system that predicts?
+[/discussion]
+
+[context]
+SEGMENT 2 — 10 to 25 minutes
+Introduce the four-question interpretive lens. Display on screen.
+Do not rush this. Students will use this lens for the rest of the semester.
+Walk through each question with a brief concrete example before the lab begins.
+[/context]
+
+[narration]
+Before you open Hokie AI, here is the lens you will use today — and throughout this course — to read any AI response critically.
+
+Every time you receive an AI response, ask these four questions:
+
+1. What is the AI claiming?
+2. What evidence does it imply or cite?
+3. What assumptions are embedded in its response?
+4. What is missing, uncertain, or left unaddressed?
+
+This is not about finding errors. It is about reading AI output the way a careful analyst reads any source — with attention to what is said, what is implied, and what is absent.
+
+Keep these four questions visible while you work today.
+[/narration]
+
+[context]
+SEGMENT 3 — 25 to 45 minutes
+Hokie AI mini-lab. Students run their first prompt independently.
+Before releasing students to work:
+- Confirm everyone is logged into Hokie AI.
+- History ON — show them where to verify this.
+- Remind them: run the prompt once, no retries, no edits. Work with what you get.
+- They annotate silently using the four questions. No pair discussion yet.
+Circulate during this segment. Watch for students who retry or edit — redirect gently.
+[/context]
+
+[narration]
+You are about to run your first prompt in Hokie AI independently.
+
+A few rules for this exercise:
+- Copy the prompt exactly as written. Do not change it.
+- Run it once. Do not retry if you dislike the response.
+- Read the full response before doing anything else.
+- Then annotate it silently using the four interpretive questions above.
+
+When you are ready, copy and paste the prompt below into Hokie AI and press send.
+[/narration]
+
+[system]
+You are a knowledgeable and approachable guide helping first-year university students understand how artificial intelligence works. Use plain, concrete language. Avoid jargon unless you define it immediately. When you are uncertain about something, say so explicitly rather than producing a confident-sounding answer.
+[/system]
+
+### S2.1
+----------
+What is the difference between a search engine and a large language model? Give me one concrete example of a task where a search engine is the better tool, and one example where a large language model is the better tool. Explain why in each case.
+----------
+###
+
+[narration]
+Read the full response carefully before writing anything.
+
+Now apply the four interpretive questions to what you just read. You do not need to write your answers down yet — hold them in mind. You will share them with a partner in a few minutes.
+[/narration]
+
+[context]
+SEGMENT 4 — 45 to 60 minutes
+Pair-share and whole-class discussion.
+Ask students to turn to a partner and share their interpretations.
+They should specifically look for places where they disagreed.
+After 5 minutes of pair discussion, bring the room back together.
+Emphasize: divergent interpretations are expected and valuable.
+Disagreement signals ambiguity in the output, not error in the student.
+Draw out two or three contrasting interpretations from the room.
+[/context]
+
+[discussion]
+Whole-class debrief — draw out two or three of these:
+
+- Did anyone find a claim in the response that surprised them? What was it?
+- Where did the AI seem most confident? Was that confidence earned?
+- Did your partner interpret the same response differently? What caused the difference?
+- What did the AI leave out that you think mattered?
+[/discussion]
+
+[context]
+SEGMENT 5 — 60 to 73 minutes
+In-class reflection. This is the assessed submission for Week 1.
+Display the R block on screen and read it aloud before students begin.
+Remind students:
+- This reflection happens inside Hokie AI, continuing the same thread.
+- They copy the opening marker, type their reflection between the dashed lines, then copy the closing marker.
+- The ### markers and dashes must appear exactly as shown — the assessment system depends on them.
+- There is no minimum word count, but depth matters more than length.
+- They are not summarizing the AI response. They are responding to an experience.
+Give students 10 to 12 minutes of silent writing time.
+Do not fill the silence.
+[/context]
+
+[narration]
+You have one final task before submitting your thread today.
+
+Copy the block below into Hokie AI — exactly as it appears, markers and dashes included. Then type your reflection in the space between the dashed lines. When you are finished, copy and paste the closing marker to close the block.
+
+This is your thinking. Not a summary of the AI's response. Not what you think the instructor wants to hear. What actually happened in your mind during this session.
+[/narration]
+
+### R2.1 [Type your reflection below]
+----------
+
+----------
+###
+
+[narration]
+The reflection prompt you are responding to is this:
+
+How does an AI construct meaning — and what role do you play in that process?
+
+Ground your answer in something specific from today's interaction. A moment that surprised you, a claim you questioned, an assumption you noticed. Use the four interpretive questions as a guide if it helps, but write in your own voice.
+[/narration]
+
+[context]
+SEGMENT 6 — 73 to 75 minutes
+Closing and thread submission.
+Ask students to copy their thread URL and submit it to the Canvas assignment before leaving.
+Show them once where the share/export option is in Hokie AI.
+Preview Week 2 in one sentence: next session, AI becomes a collaborator on real business tasks.
+[/context]
+
+[narration]
+Before you leave:
+
+1. Copy the URL of your Hokie AI thread using the share option at the top of the conversation.
+2. Paste it into the Week 1 submission field in Canvas.
+3. That is your submission. Nothing else is required.
+
+See you next week.
+[/narration]
