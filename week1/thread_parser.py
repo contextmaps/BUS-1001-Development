@@ -68,20 +68,41 @@ def classify_turn(role, text):
 
 def extract_pid_from_identity_block(text, prompt_id):
     """
-    Extract the student's PID from an identity block (R2.0).
+    Extract the student's PID from an identity block (R*.0).
+    PID lives in the FIRST dashed zone — between the first two ---------- lines.
+    The second dashed zone contains the session instruction and is ignored.
     Returns the PID string or None if not found or empty.
     """
-    pattern = r'###\s+' + re.escape(prompt_id) + r'[^\n]*\n-{5,}\n(.*?)\n-{5,}'
-    match = re.search(pattern, text, re.DOTALL)
-    if match:
-        # Extract content between dashes, strip whitespace and session instruction lines
-        inner = match.group(1).strip()
-        # Remove any [Session: ...] instruction lines
-        lines = [l for l in inner.split('\n')
-                 if l.strip() and not l.strip().startswith('[Session:')]
-        pid = ' '.join(lines).strip()
-        return pid if pid else None
-    return None
+    header_match = re.search(
+        r'###\s+' + re.escape(prompt_id) + r'[^\n]*\n(.*)',
+        text, re.DOTALL
+    )
+    if not header_match:
+        return None
+
+    body = header_match.group(1)
+    lines = body.split('\n')
+    inside = False
+    collected = []
+    dash_count = 0
+
+    for line in lines:
+        if line.strip() == '----------':
+            dash_count += 1
+            if dash_count == 1:
+                inside = True
+                continue
+            else:
+                break  # second dash line — stop, PID zone is complete
+        elif inside:
+            collected.append(line)
+
+    pid_lines = [
+        l for l in collected
+        if l.strip() and not l.strip().startswith('[Session:')
+    ]
+    pid = ' '.join(pid_lines).strip()
+    return pid if pid else None
 
 
 def extract_contribution_content(text, prompt_id):

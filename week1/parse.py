@@ -212,8 +212,9 @@ def build_student_copy_text(full_id, raw_content, label=''):
     inner = extract_dashed_content(raw_content)
     if full_id.startswith('R'):
         if is_identity_block(full_id):
-            # Identity block: preserve inner content (includes session instruction)
-            return f"### {full_id}{' ' + label if label else ''}\n----------\n\n{inner}\n###"
+            # Identity block: preserve the full raw content as-is between the ### markers
+            # This includes the student typing zone AND the session instruction zone
+            return f"### {full_id}{' ' + label if label else ''}\n{raw_content.strip()}\n###"
         else:
             # Contribution block: blank line between dashes, no inner content
             return f"### {full_id}{' ' + label if label else ''}\n----------\n\n----------\n###"
