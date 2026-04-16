@@ -1,22 +1,22 @@
 """
-Course Prompt Library Parser
+Course Prompt Library Parser — v2
 Converts tagged .txt source files into Canvas-embeddable HTML.
 
 Tag reference:
   [meta]        Course metadata — renders as header block
   [objectives]  Learning objectives — renders as styled list
-  [context]     Instructor-only notes — hidden in student view, visible in instructor view
+  [context]     Instructor-only notes — hidden in student view
   [narration]   Student-facing explanatory text — no copy button
-  [discussion]  Verbal discussion prompts — rendered as discussion block, no copy button
-  [system]      Session persona prompt — instructor pastes into AI before class
-  [instructor]  Instructor demonstration prompt — labeled, copy button, not for students
-  ### S{id}     Standard student prompt — prominent copy button
-  ### R{id}     Reflection prompt — distinct styling, copy button, includes ### markers
+  [discussion]  Verbal discussion prompts — no copy button
+  [system]      Session persona prompt — instructor only
+  [instructor]  Instructor demonstration prompt — instructor only
+  [rubric]      Assessment rubric envelope — never rendered, pipeline use only
+  ### S{id}     Standard student prompt — copy button
+  ### R{id}     Student contribution prompt — copy button with blank typing line
 """
 
 import re
 import sys
-import os
 from pathlib import Path
 
 
@@ -29,10 +29,6 @@ def escape_html(text):
 
 
 def parse_block_tags(source):
-    """
-    Parse the source into a list of (tag, content) tuples.
-    Handles both [tag]...[/tag] blocks and ### prompt blocks.
-    """
     segments = []
     i = 0
     lines = source.split('\n')
@@ -41,20 +37,18 @@ def parse_block_tags(source):
     while i < n:
         line = lines[i]
 
-        # Detect ### S or ### R prompt blocks
         prompt_match = re.match(r'^###\s+(S|R)([\w.]+)(.*)?$', line.strip())
         if prompt_match:
-            ptype = prompt_match.group(1)      # S or R
-            pid = prompt_match.group(2)         # e.g. 2.1
-            label_extra = prompt_match.group(3).strip()  # e.g. [Type your reflection below]
+            ptype = prompt_match.group(1)
+            pid = prompt_match.group(2)
+            label_extra = prompt_match.group(3).strip()
             full_id = f"{ptype}{pid}"
             content_lines = []
             i += 1
-            # Collect until closing ###
             while i < n and not lines[i].strip() == '###':
                 content_lines.append(lines[i])
                 i += 1
-            i += 1  # skip closing ###
+            i += 1
             raw_content = '\n'.join(content_lines)
             segments.append({
                 'tag': 'prompt_s' if ptype == 'S' else 'prompt_r',
@@ -64,19 +58,20 @@ def parse_block_tags(source):
             })
             continue
 
-        # Detect [tag] opening
-        tag_match = re.match(r'^\[(\w+)\]\s*$', line.strip())
+        tag_match = re.match(r'^\[(\w+)(?:\s+[^\]]+)?\]\s*$', line.strip())
         if tag_match:
             tag = tag_match.group(1).lower()
+            opening_line = line.strip()
             content_lines = []
             i += 1
             closing = f'[/{tag}]'
             while i < n and lines[i].strip().lower() != closing:
                 content_lines.append(lines[i])
                 i += 1
-            i += 1  # skip closing tag
+            i += 1
             segments.append({
                 'tag': tag,
+                'opening': opening_line,
                 'content': '\n'.join(content_lines).strip()
             })
             continue
@@ -116,7 +111,6 @@ def render_objectives(content):
     html += '  <div class="plib-objectives-label">Learning Objectives</div>\n'
     html += '  <ol class="plib-objectives-list">\n'
     for line in lines:
-        # Strip leading number+dot if present
         clean = re.sub(r'^\d+\.\s*', '', line)
         html += f'    <li>{escape_html(clean)}</li>\n'
     html += '  </ol>\n'
@@ -131,7 +125,6 @@ def render_context(content):
     html += '  <div class="plib-context-body">\n'
     for p in paras:
         if p.startswith('-'):
-            # It's a bullet — collect into list
             html += f'    <div class="plib-context-bullet">{escape_html(p[1:].strip())}</div>\n'
         else:
             html += f'    <p>{escape_html(p)}</p>\n'
@@ -145,7 +138,6 @@ def render_narration(content):
     html = '<div class="plib-narration">\n'
     for para in paras:
         lines = para.split('\n')
-        # Check if it looks like a numbered list
         if re.match(r'^\d+\.', lines[0].strip()):
             html += '  <ol class="plib-narration-list">\n'
             for l in lines:
@@ -177,29 +169,26 @@ def render_discussion(content):
 def render_system(content, block_index):
     bid = f"system_{block_index}"
     escaped = escape_html(content.strip())
-    html = f'''<div class="plib-system">
+    return f'''<div class="plib-system">
   <div class="plib-system-label">&#9881; Session System Prompt <span class="plib-system-note">(Instructor: paste this into Hokie AI before class begins)</span></div>
   <div class="plib-prompt-text" id="text_{bid}">{escaped}</div>
   <button class="plib-copy-btn" onclick="copyPrompt('text_{bid}', this)">&#128203; Copy system prompt</button>
 </div>
 '''
-    return html
 
 
 def render_instructor(content, block_index):
     bid = f"instructor_{block_index}"
     escaped = escape_html(content.strip())
-    html = f'''<div class="plib-instructor">
+    return f'''<div class="plib-instructor">
   <div class="plib-instructor-label">&#128065; Instructor Demonstration <span class="plib-instructor-note">(Students observe — do not copy)</span></div>
   <div class="plib-prompt-text" id="text_{bid}">{escaped}</div>
   <button class="plib-copy-btn" onclick="copyPrompt('text_{bid}', this)">&#128203; Copy for demonstration</button>
 </div>
 '''
-    return html
 
 
 def extract_dashed_content(raw):
-    """Extract the content between ---------- lines."""
     lines = raw.split('\n')
     inside = False
     collected = []
@@ -215,13 +204,11 @@ def extract_dashed_content(raw):
 
 
 def build_student_copy_text(full_id, raw_content, label=''):
-    """Build the full text that gets copied into the AI interface."""
     inner = extract_dashed_content(raw_content)
     if full_id.startswith('R'):
-        # Reflection: include markers and dashes so thread parser can detect
-        return f"### {full_id}{' ' + label if label else ''}\n----------\n{inner}\n----------\n###"
+        # Blank line between dashes — cursor lands ready to type
+        return f"### {full_id}{' ' + label if label else ''}\n----------\n\n----------\n###"
     else:
-        # Standard: include markers
         return f"### {full_id}\n----------\n{inner}\n----------\n###"
 
 
@@ -230,20 +217,17 @@ def render_prompt_s(seg, block_index):
     raw = seg['content']
     inner = extract_dashed_content(raw)
     copy_text = build_student_copy_text(pid, raw)
-    escaped_display = escape_html(inner)
-    escaped_copy = escape_html(copy_text)
     bid = f"prompt_{block_index}"
-    html = f'''<div class="plib-prompt-s">
+    return f'''<div class="plib-prompt-s">
   <div class="plib-prompt-header">
     <span class="plib-prompt-id">{escape_html(pid)}</span>
     <span class="plib-prompt-type-label">Student Prompt</span>
   </div>
-  <div class="plib-prompt-text" id="text_{bid}">{escaped_copy}</div>
-  <div class="plib-prompt-display">{escaped_display}</div>
+  <div class="plib-prompt-text" id="text_{bid}">{escape_html(copy_text)}</div>
+  <div class="plib-prompt-display">{escape_html(inner)}</div>
   <button class="plib-copy-btn" onclick="copyPrompt('text_{bid}', this)">&#128203; Copy prompt</button>
 </div>
 '''
-    return html
 
 
 def render_prompt_r(seg, block_index):
@@ -251,123 +235,75 @@ def render_prompt_r(seg, block_index):
     label = seg.get('label', '')
     raw = seg['content']
     copy_text = build_student_copy_text(pid, raw, label)
-    escaped_copy = escape_html(copy_text)
     bid = f"prompt_{block_index}"
-    html = f'''<div class="plib-prompt-r">
+    return f'''<div class="plib-prompt-r">
   <div class="plib-prompt-header">
     <span class="plib-prompt-id">{escape_html(pid)}</span>
-    <span class="plib-prompt-type-label plib-reflect-label">Reflection Prompt</span>
+    <span class="plib-prompt-type-label plib-reflect-label">Your Contribution</span>
   </div>
-  <div class="plib-prompt-text" id="text_{bid}">{escaped_copy}</div>
-  <div class="plib-reflect-instruction">Copy the block below into Hokie AI. Type your reflection between the dashed lines, then copy the closing marker.</div>
-  <button class="plib-copy-btn plib-copy-btn-reflect" onclick="copyPrompt('text_{bid}', this)">&#128203; Copy reflection block</button>
+  <div class="plib-prompt-text" id="text_{bid}">{escape_html(copy_text)}</div>
+  <div class="plib-reflect-instruction">Copy the block below into Hokie AI. Type your response between the dashed lines, then copy and paste the closing marker.</div>
+  <button class="plib-copy-btn plib-copy-btn-reflect" onclick="copyPrompt('text_{bid}', this)">&#128203; Copy contribution block</button>
 </div>
 '''
-    return html
 
 
 CSS = """
 <style>
 :root {
-  --c-bg: #ffffff;
-  --c-border: rgba(0,0,0,0.10);
-  --c-text: #1a1a1a;
-  --c-muted: #555;
-  --c-meta-bg: #f4f6f9;
-  --c-meta-border: #d0d7e2;
-  --c-obj-bg: #eef4fb;
-  --c-obj-border: #b8d0ed;
-  --c-obj-accent: #2a6db5;
-  --c-ctx-bg: #fffbf0;
-  --c-ctx-border: #e8d8a0;
-  --c-ctx-label: #7a5c00;
-  --c-nar-bg: #f9f9f9;
-  --c-nar-border: #ddd;
-  --c-dis-bg: #f0f4ff;
-  --c-dis-border: #b0bfee;
-  --c-dis-label: #2a3fa0;
-  --c-sys-bg: #f3f0ff;
-  --c-sys-border: #c4b8f0;
-  --c-sys-label: #4a30a0;
-  --c-ins-bg: #fff0f4;
-  --c-ins-border: #f0b8c8;
-  --c-ins-label: #a03050;
-  --c-s-bg: #f0faf4;
-  --c-s-border: #a0d8b8;
-  --c-s-id: #1a6b40;
-  --c-r-bg: #fff8f0;
-  --c-r-border: #f0c890;
-  --c-r-id: #8a4a00;
-  --c-btn: #1a6b40;
-  --c-btn-r: #8a4a00;
-  --radius: 8px;
+  --c-bg: #ffffff; --c-border: rgba(0,0,0,0.10); --c-text: #1a1a1a; --c-muted: #555;
+  --c-meta-bg: #f4f6f9; --c-meta-border: #d0d7e2;
+  --c-obj-bg: #eef4fb; --c-obj-border: #b8d0ed; --c-obj-accent: #2a6db5;
+  --c-ctx-bg: #fffbf0; --c-ctx-border: #e8d8a0; --c-ctx-label: #7a5c00;
+  --c-nar-bg: #f9f9f9; --c-nar-border: #ddd;
+  --c-dis-bg: #f0f4ff; --c-dis-border: #b0bfee; --c-dis-label: #2a3fa0;
+  --c-sys-bg: #f3f0ff; --c-sys-border: #c4b8f0; --c-sys-label: #4a30a0;
+  --c-ins-bg: #fff0f4; --c-ins-border: #f0b8c8; --c-ins-label: #a03050;
+  --c-s-bg: #f0faf4; --c-s-border: #a0d8b8; --c-s-id: #1a6b40;
+  --c-r-bg: #fff8f0; --c-r-border: #f0c890; --c-r-id: #8a4a00;
+  --c-btn: #1a6b40; --c-btn-r: #8a4a00; --radius: 8px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
-
 .plib-wrap { font-family: var(--font); color: var(--c-text); max-width: 800px; margin: 0 auto; padding: 1rem 0; }
-
-/* Meta */
 .plib-meta { background: var(--c-meta-bg); border: 1px solid var(--c-meta-border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
 .plib-meta-course { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); margin-bottom: 4px; }
 .plib-meta-title { font-size: 20px; font-weight: 600; margin: 4px 0 8px; }
 .plib-meta-week { font-size: 13px; color: var(--c-muted); margin-bottom: 2px; }
 .plib-meta-details { font-size: 12px; color: var(--c-muted); margin-top: 8px; }
-
-/* Objectives */
 .plib-objectives { background: var(--c-obj-bg); border-left: 4px solid var(--c-obj-accent); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
 .plib-objectives-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-obj-accent); font-weight: 600; margin-bottom: 8px; }
 .plib-objectives-list { margin: 0; padding-left: 1.25rem; }
 .plib-objectives-list li { margin-bottom: 6px; font-size: 14px; line-height: 1.6; }
-
-/* Context (instructor only) */
 .plib-context { background: var(--c-ctx-bg); border: 1px solid var(--c-ctx-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
 .plib-context-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-ctx-label); font-weight: 600; margin-bottom: 8px; }
 .plib-context-body p { margin: 4px 0; font-size: 13px; line-height: 1.6; color: var(--c-muted); }
 .plib-context-bullet { font-size: 13px; color: var(--c-muted); padding-left: 1rem; position: relative; margin-bottom: 3px; }
 .plib-context-bullet::before { content: "–"; position: absolute; left: 0; }
-
-/* Narration */
 .plib-narration { background: var(--c-nar-bg); border-left: 3px solid var(--c-nar-border); padding: 0.9rem 1.25rem; margin-bottom: 1rem; border-radius: 0 var(--radius) var(--radius) 0; }
 .plib-narration p { margin: 0 0 8px; font-size: 14px; line-height: 1.7; }
 .plib-narration p:last-child { margin-bottom: 0; }
 .plib-narration-list { margin: 4px 0; padding-left: 1.25rem; }
 .plib-narration-list li { font-size: 14px; line-height: 1.6; margin-bottom: 4px; }
-
-/* Discussion */
 .plib-discussion { background: var(--c-dis-bg); border: 1px solid var(--c-dis-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
 .plib-discussion-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-dis-label); font-weight: 600; margin-bottom: 8px; }
 .plib-discussion-list { margin: 0; padding-left: 1.25rem; }
 .plib-discussion-list li { font-size: 14px; line-height: 1.6; margin-bottom: 6px; color: var(--c-dis-label); }
-
-/* System prompt */
 .plib-system { background: var(--c-sys-bg); border: 1px solid var(--c-sys-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
 .plib-system-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-sys-label); font-weight: 600; margin-bottom: 8px; }
 .plib-system-note { font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; }
-
-/* Instructor demo */
 .plib-instructor { background: var(--c-ins-bg); border: 1px solid var(--c-ins-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
 .plib-instructor-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-ins-label); font-weight: 600; margin-bottom: 8px; }
 .plib-instructor-note { font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; }
-
-/* Hidden copy source */
 .plib-prompt-text { display: none; }
-
-/* Prompt display (human-readable) */
 .plib-prompt-display { font-size: 14px; line-height: 1.7; white-space: pre-wrap; background: rgba(255,255,255,0.6); border-radius: 4px; padding: 0.6rem 0.8rem; margin-bottom: 10px; }
-
-/* Standard student prompt */
 .plib-prompt-s { background: var(--c-s-bg); border: 1px solid var(--c-s-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
 .plib-prompt-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
 .plib-prompt-id { font-size: 12px; font-weight: 700; color: var(--c-s-id); font-family: monospace; background: rgba(26,107,64,0.1); padding: 2px 7px; border-radius: 4px; }
 .plib-prompt-type-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-muted); }
-
-/* Reflection prompt */
 .plib-prompt-r { background: var(--c-r-bg); border: 1px solid var(--c-r-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
 .plib-reflect-label { color: var(--c-r-id) !important; }
 .plib-prompt-r .plib-prompt-id { color: var(--c-r-id); background: rgba(138,74,0,0.1); }
 .plib-reflect-instruction { font-size: 13px; color: var(--c-muted); font-style: italic; margin-bottom: 10px; }
-
-/* Copy buttons */
 .plib-copy-btn { display: inline-block; padding: 7px 14px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--c-btn); background: transparent; color: var(--c-btn); border-radius: 6px; cursor: pointer; transition: background 0.15s, color 0.15s; }
 .plib-copy-btn:hover { background: var(--c-btn); color: #fff; }
 .plib-copy-btn-reflect { border-color: var(--c-btn-r); color: var(--c-btn-r); }
@@ -386,10 +322,7 @@ function copyPrompt(id, btn) {
     var orig = btn.innerHTML;
     btn.innerHTML = '&#10003; Copied';
     btn.classList.add('copied');
-    setTimeout(function() {
-      btn.innerHTML = orig;
-      btn.classList.remove('copied');
-    }, 2000);
+    setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
   }).catch(function() {
     var ta = document.createElement('textarea');
     ta.value = text;
@@ -408,10 +341,6 @@ function copyPrompt(id, btn) {
 
 
 def parse_and_render(source, mode='student'):
-    """
-    mode: 'student' hides [context] blocks
-          'instructor' shows all blocks
-    """
     segments = parse_block_tags(source)
     html_parts = []
     block_index = 0
@@ -427,7 +356,6 @@ def parse_and_render(source, mode='student'):
         elif tag == 'context':
             if mode == 'instructor':
                 html_parts.append(render_context(seg['content']))
-            # hidden in student mode
         elif tag == 'narration':
             html_parts.append(render_narration(seg['content']))
         elif tag == 'discussion':
@@ -435,10 +363,11 @@ def parse_and_render(source, mode='student'):
         elif tag == 'system':
             if mode == 'instructor':
                 html_parts.append(render_system(seg['content'], block_index))
-            # system prompt hidden from students
         elif tag == 'instructor':
             if mode == 'instructor':
                 html_parts.append(render_instructor(seg['content'], block_index))
+        elif tag == 'rubric':
+            pass  # pipeline only — never rendered
         elif tag == 'prompt_s':
             html_parts.append(render_prompt_s(seg, block_index))
         elif tag == 'prompt_r':
@@ -465,20 +394,15 @@ def parse_and_render(source, mode='student'):
 def main():
     if len(sys.argv) < 2:
         print("Usage: python parse.py <source.txt> [student|instructor]")
-        print("Output files written to ../output/")
         sys.exit(1)
-
     source_path = Path(sys.argv[1])
     mode = sys.argv[2] if len(sys.argv) > 2 else 'student'
-
     if not source_path.exists():
         print(f"File not found: {source_path}")
         sys.exit(1)
-
     source = source_path.read_text(encoding='utf-8')
     output_dir = Path(__file__).parent.parent / 'output'
     output_dir.mkdir(exist_ok=True)
-
     stem = source_path.stem
     out_path = output_dir / f"{stem}_{mode}.html"
     html = parse_and_render(source, mode=mode)

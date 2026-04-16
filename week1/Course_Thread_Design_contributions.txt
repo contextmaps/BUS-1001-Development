@@ -1,0 +1,49 @@
+[meta]
+source: chatgpt
+contributions: 1
+[/meta]
+
+[contribution id: R2.1]
+[context_prompt id: S2.1]
+What is the difference between a search engine and a large language model? Give me one concrete example of a task where a search engine is the better tool, and one example where a large language model is the better tool. Explain why in each case.
+[/context_prompt]
+
+[ai_response]
+Understood. Here is the response to your prompt.
+A
+search engine
+and a
+large language model (LLM)
+serve different purposes, even though they may appear similar at first.
+A
+search engine
+(such as
+Google Search
+) is designed to
+retrieve information from the web
+. It indexes billions of documents and returns links, snippets, and sources that match a user’s query. Its strength lies in
+finding existing, up-to-date, and verifiable information
+.
+A
+large language model
+(such as
+ChatGPT
+) is designed to
+generate language
+. It produces responses by recognizing patterns in data it was trained on, allowing it to explain, summarize, synthesize, and create content. Its strength lies in
+reasoning, explanation, and composition
+, rather than direct retrieval.
+Example where a search engine is better
+Task:
+“Find the official website for Virginia Tech’s Pamplin College of Business.”
+A search engine is better here because:
+The task requires
+locating a specific, real-world resource
+Accuracy depends on
+curre
+[/ai_response]
+
+[student_text]
+I believe AI constructs meaning by taking in all the contextual information from the user, who has the specific local knowledge about the issue at hand, combines it with its vast knowledge and generative capabilities to provide solutions in terms of information retrieval, summarization, prediction, artifacts, etc. The role of the user is to assess response from AI in every turn and steer the direction of the user-AI dialogue through the complexities of the issue that are not visible to AI directly, and arrive at a point that benefits the user in a robust and meaningful way.
+[/student_text]
+[/contribution]

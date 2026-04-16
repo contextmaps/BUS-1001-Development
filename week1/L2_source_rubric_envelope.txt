@@ -1,0 +1,38 @@
+[rubric_envelope]
+course: BUS 1001 — AI Literacy
+week: 1
+lecture: 2
+title: Reading AI Output as Text — Interpretation Before Trust
+duration: 75 minutes
+platform: Hokie AI (Chat mode, History ON, no projects, no incognito)
+submission: Thread URL submitted in Canvas before leaving class
+
+[rubric id: R2.1]
+type: reflection
+context_prompt_id: S2.1
+
+[directive]
+How does an AI construct meaning — and what role do you play in that process? Ground your answer in something specific from today's interaction. A moment that surprised you, a claim you questioned, an assumption you noticed. Use the four interpretive questions as a guide if it helps, but write in your own voice.
+[/directive]
+
+[narration_context]
+You have one final task before submitting your thread today.
+
+Copy the block below into Hokie AI — exactly as it appears, markers and dashes included. Then type your response in the space between the dashed lines. When you are finished, copy and paste the closing marker to close the block.
+
+This is your thinking. Not a summary of the AI's response. Not what you think the instructor wants to hear. What actually happened in your mind during this session.
+[/narration_context]
+
+[context_prompt id: S2.1]
+What is the difference between a search engine and a large language model? Give me one concrete example of a task where a search engine is the better tool, and one example where a large language model is the better tool. Explain why in each case.
+[/context_prompt]
+
+[dimensions]
+- conceptual_accuracy
+- interaction_evidence
+- interpretive_depth
+- clarity
+[/dimensions]
+[/rubric]
+
+[/rubric_envelope]
