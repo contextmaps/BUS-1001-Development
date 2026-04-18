@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading AI Output as Text — Interpretation Before Trust</title>
+<style>
+:root {
+  --c-text: #1a1a1a; --c-muted: #4a4a4a;
+  --c-meta-bg: #f4f6f9; --c-meta-border: #d0d7e2;
+  --c-obj-bg: #eef4fb; --c-obj-accent: #1a5da0;
+  --c-ctx-bg: #fffbf0; --c-ctx-border: #e8d8a0; --c-ctx-label: #5c4400;
+  --c-nar-bg: #f9f9f9; --c-nar-border: #bbb;
+  --c-dis-bg: #f0f4ff; --c-dis-border: #8090cc; --c-dis-label: #1e2e80;
+  --c-sys-bg: #f3f0ff; --c-sys-border: #9080d0; --c-sys-label: #3a2090;
+  --c-ins-bg: #fff0f4; --c-ins-border: #d080a0; --c-ins-label: #800030;
+  --c-s-bg: #f0faf4; --c-s-border: #70c090; --c-s-id: #14552f;
+  --c-r-bg: #fff8f0; --c-r-border: #d0a040; --c-r-id: #6b3e00;
+  --c-i-bg: #f0f0ff; --c-i-border: #8080c8; --c-i-id: #2a2a80;
+  --c-btn: #14552f; --c-btn-r: #6b3e00; --c-btn-i: #2a2a80;
+  --radius: 8px; --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.plib-wrap { font-family: var(--font); color: var(--c-text); max-width: 800px; margin: 0 auto; padding: 1rem 0; }
+.plib-meta { background: var(--c-meta-bg); border: 1px solid var(--c-meta-border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+.plib-meta-course { font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-muted); margin-bottom: 4px; }
+.plib-meta-title { font-size: 20px; font-weight: 600; margin: 4px 0 8px; }
+.plib-meta-week { font-size: 13px; color: var(--c-muted); margin-bottom: 2px; }
+.plib-meta-details { font-size: 12px; color: var(--c-muted); margin-top: 8px; }
+.plib-objectives { background: var(--c-obj-bg); border-left: 4px solid var(--c-obj-accent); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+.plib-objectives-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-obj-accent); font-weight: 700; margin-bottom: 8px; }
+.plib-objectives-intro { margin: 0 0 8px; font-size: 14px; line-height: 1.6; font-style: italic; color: var(--c-muted); }
+.plib-objectives-list { margin: 0; padding-left: 1.25rem; }
+.plib-objectives-list li { margin-bottom: 6px; font-size: 14px; line-height: 1.6; }
+.plib-context { background: var(--c-ctx-bg); border: 1px solid var(--c-ctx-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.plib-context-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ctx-label); font-weight: 700; margin-bottom: 8px; }
+.plib-context-body p { margin: 4px 0; font-size: 13px; line-height: 1.6; color: var(--c-muted); }
+.plib-context-bullet { font-size: 13px; color: var(--c-muted); padding-left: 1rem; position: relative; margin-bottom: 3px; }
+.plib-context-bullet::before { content: "–"; position: absolute; left: 0; }
+.plib-narration { background: var(--c-nar-bg); border-left: 3px solid var(--c-nar-border); padding: 0.9rem 1.25rem; margin-bottom: 1rem; border-radius: 0 var(--radius) var(--radius) 0; }
+.plib-narration p { margin: 0 0 8px; font-size: 14px; line-height: 1.7; }
+.plib-narration p:last-child { margin-bottom: 0; }
+.plib-narration-list { margin: 4px 0; padding-left: 1.25rem; }
+.plib-narration-list li { font-size: 14px; line-height: 1.6; margin-bottom: 4px; }
+.plib-discussion { background: var(--c-dis-bg); border: 1px solid var(--c-dis-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.plib-discussion-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-dis-label); font-weight: 700; margin-bottom: 8px; }
+.plib-discussion-intro { margin: 0 0 8px; font-size: 14px; line-height: 1.6; font-style: italic; color: var(--c-dis-label); }
+.plib-discussion-list { margin: 0; padding-left: 1.25rem; }
+.plib-discussion-list li { font-size: 14px; line-height: 1.6; margin-bottom: 6px; color: var(--c-dis-label); }
+.plib-system { background: var(--c-sys-bg); border: 1px solid var(--c-sys-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.plib-system-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-sys-label); font-weight: 700; margin-bottom: 8px; }
+.plib-system-note { font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; }
+.plib-instructor { background: var(--c-ins-bg); border: 1px solid var(--c-ins-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.plib-instructor-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-ins-label); font-weight: 700; margin-bottom: 8px; }
+.plib-instructor-note { font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; }
+.plib-prompt-text { display: none; }
+.plib-prompt-display { font-size: 14px; line-height: 1.7; white-space: pre-wrap; background: rgba(255,255,255,0.6); border-radius: 4px; padding: 0.6rem 0.8rem; margin-bottom: 10px; }
+.plib-prompt-s { background: var(--c-s-bg); border: 1px solid var(--c-s-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.plib-prompt-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.plib-prompt-id { font-size: 12px; font-weight: 700; color: var(--c-s-id); font-family: monospace; background: rgba(26,107,64,0.1); padding: 2px 7px; border-radius: 4px; }
+.plib-prompt-type-label { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-muted); font-weight: 600; }
+.plib-prompt-r { background: var(--c-r-bg); border: 1px solid var(--c-r-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.plib-reflect-label { color: var(--c-r-id) !important; }
+.plib-prompt-r .plib-prompt-id { color: var(--c-r-id); background: rgba(138,74,0,0.1); }
+.plib-reflect-instruction { font-size: 13px; color: var(--c-muted); font-style: italic; margin-bottom: 10px; }
+.plib-prompt-identity { background: var(--c-i-bg); border: 2px solid var(--c-i-border); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.plib-identity-id { color: var(--c-i-id) !important; background: rgba(58,58,154,0.1) !important; }
+.plib-identity-label { color: var(--c-i-id) !important; }
+.plib-identity-instruction { font-size: 13px; color: var(--c-muted); font-style: italic; margin-bottom: 10px; }
+.plib-copy-btn { display: inline-block; padding: 7px 14px; font-size: 13px; font-weight: 500; border: 1.5px solid var(--c-btn); background: transparent; color: var(--c-btn); border-radius: 6px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+.plib-copy-btn:hover { background: var(--c-btn); color: #fff; }
+.plib-copy-btn-reflect { border-color: var(--c-btn-r); color: var(--c-btn-r); }
+.plib-copy-btn-reflect:hover { background: var(--c-btn-r); color: #fff; }
+.plib-copy-btn-identity { border-color: var(--c-btn-i); color: var(--c-btn-i); }
+.plib-copy-btn-identity:hover { background: var(--c-btn-i); color: #fff; }
+.plib-copy-btn.copied { background: #333; color: #fff; border-color: #333; }
+.plib-copy-btn:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+.plib-prompt-display:focus { outline: 2px solid #005fcc; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<a href="#main-content" class="plib-skip-link">Skip to main content</a>
+<style>.plib-skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}.plib-skip-link:focus{position:static;width:auto;height:auto;background:#005fcc;color:#fff;padding:8px 16px;font-size:14px;font-weight:600;border-radius:4px;text-decoration:none;display:inline-block;margin:8px;}</style>
+<main id="main-content">
+<div class="plib-wrap">
+<div class="plib-meta">
+  <div class="plib-meta-course">BUS 1001 — AI Literacy</div>
+  <div class="plib-meta-week">Week 1 · Lecture 2</div>
+  <div class="plib-meta-title">Reading AI Output as Text — Interpretation Before Trust</div>
+  <div class="plib-meta-details"><span><strong>Duration:</strong> 75 minutes</span>&ensp;·&ensp;<span><strong>Platform:</strong> Hokie AI (Chat mode, History ON, no projects, no incognito)</span>&ensp;·&ensp;<span><strong>Submission:</strong> Thread URL submitted in Canvas before leaving class</span></div>
+</div>
+
+<div class="plib-objectives">
+  <div class="plib-objectives-label">Learning Objectives</div>
+  <p class="plib-objectives-intro">By the end of this lecture, students will be able to:</p>
+  <ol class="plib-objectives-list">
+    <li>Analyze AI output as a constructed artifact rather than a factual authority.</li>
+    <li>Apply a four-question interpretive lens to any AI response.</li>
+    <li>Articulate why trust in AI must be calibrated through evidence, not assumed from fluency.</li>
+    <li>Produce a short in-class reflection grounded in a real AI interaction.</li>
+  </ol>
+</div>
+
+<div class="plib-discussion">
+  <div class="plib-discussion-label">&#128172; Discussion</div>
+  <p class="plib-discussion-intro">Recap questions — ask two or three of these verbally before opening laptops:</p>
+  <ul class="plib-discussion-list">
+    <li>In one sentence: what does an LLM actually do when it responds to you?</li>
+    <li>Did anything from Tuesday's demonstration stay with you? What stuck, and why?</li>
+    <li>What is the difference between a system that understands and a system that predicts?</li>
+</ul>
+</div>
+
+<div class="plib-narration">
+  <p>Before you open Hokie AI, here is the lens you will use today — and throughout this course — to read any AI response critically.</p>
+  <p>Every time you receive an AI response, ask these four questions:</p>
+  <ol class="plib-narration-list">
+    <li>What is the AI claiming?</li>
+    <li>What evidence does it imply or cite?</li>
+    <li>What assumptions are embedded in its response?</li>
+    <li>What is missing, uncertain, or left unaddressed?</li>
+  </ol>
+  <p>This is not about finding errors. It is about reading AI output the way a careful analyst reads any source — with attention to what is said, what is implied, and what is absent.</p>
+  <p>Keep these four questions visible while you work today.</p>
+</div>
+
+<div class="plib-narration">
+  <p>You are about to run your first prompt in Hokie AI independently.</p>
+  <p>A few rules for this exercise: - Copy the prompt exactly as written. Do not change it. - Run it once. Do not retry if you dislike the response. - Read the full response before doing anything else. - Then annotate it silently using the four interpretive questions above.</p>
+  <p>When you are ready, copy and paste the prompt below into Hokie AI and press send.</p>
+</div>
+
+<div class="plib-narration">
+  <p>Before you run any prompts today, you will open your session with one step.</p>
+  <p>Copy the block below, paste it into Hokie AI, type your Virginia Tech PID between the dashed lines, then copy and paste the closing marker. This connects your identity to your thread and starts the session.</p>
+</div>
+
+<div class="plib-prompt-identity" role="region" aria-label="Session Opener">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-identity-id">R2.0</span>
+    <span class="plib-prompt-type-label plib-identity-label">Session Opener</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_12">### R2.0 [Enter your VT PID below to begin]
+----------
+&gt; 
+----------
+[Session: BUS 1001 — Week 1 Lecture 2. The student has entered their Virginia Tech PID above. Respond with exactly one sentence confirming their session is open. Do not ask questions.]
+----------
+###</div>
+  <div class="plib-identity-instruction">Copy this block into Hokie AI. Type your VT PID between the first two dashed lines, then copy and paste the closing marker to start your session.</div>
+  <button class="plib-copy-btn plib-copy-btn-identity" onclick="copyPrompt('text_prompt_12', this)" aria-label="Copy session opener block to clipboard"><span aria-hidden="true">&#128203;</span> Copy session opener</button>
+</div>
+
+<div class="plib-prompt-s" role="region" aria-label="Student Prompt S2.1">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id">S2.1</span>
+    <span class="plib-prompt-type-label">Student Prompt</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_14">### S2.1
+----------
+What is the difference between a search engine and a large language model? Give me one concrete example of a task where a search engine is the better tool, and one example where a large language model is the better tool. Explain why in each case.
+----------
+###</div>
+  <div class="plib-prompt-display">What is the difference between a search engine and a large language model? Give me one concrete example of a task where a search engine is the better tool, and one example where a large language model is the better tool. Explain why in each case.</div>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_14', this)" aria-label="Copy prompt S2.1 to clipboard"><span aria-hidden="true">&#128203;</span> Copy prompt</button>
+</div>
+
+<div class="plib-narration">
+  <p>Read the full response carefully before writing anything.</p>
+  <p>Now apply the four interpretive questions to what you just read. You do not need to write your answers down yet — hold them in mind. In a moment you will share them with a partner.</p>
+</div>
+
+<div class="plib-discussion">
+  <div class="plib-discussion-label">&#128172; Discussion</div>
+  <p class="plib-discussion-intro">Whole-class debrief — draw out two or three of these:</p>
+  <ul class="plib-discussion-list">
+    <li>Did anyone find a claim in the response that surprised them? What was it?</li>
+    <li>Where did the AI seem most confident? Was that confidence earned?</li>
+    <li>Did your partner interpret the same response differently? What caused the difference?</li>
+    <li>What did the AI leave out that you think mattered?</li>
+</ul>
+</div>
+
+<div class="plib-narration">
+  <p>You have one final task before submitting your thread today.</p>
+  <p>Copy the block below into Hokie AI — exactly as it appears, markers and dashes included. Then type your response in the space between the dashed lines. When you are finished, copy and paste the closing marker to close the block.</p>
+  <p>This is your thinking. Not a summary of the AI's response. Not what you think the instructor wants to hear. What actually happened in your mind during this session.</p>
+</div>
+
+<div class="plib-prompt-r" role="region" aria-label="Contribution Prompt R2.1">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id">R2.1</span>
+    <span class="plib-prompt-type-label plib-reflect-label">Your Contribution</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_20">### R2.1 [Your response below]
+----------
+&gt; 
+----------
+###</div>
+  <div class="plib-reflect-instruction">Copy the block below into Hokie AI. Type your response between the dashed lines, then copy and paste the closing marker.</div>
+  <button class="plib-copy-btn plib-copy-btn-reflect" onclick="copyPrompt('text_prompt_20', this)" aria-label="Copy contribution block R2.1 to clipboard"><span aria-hidden="true">&#128203;</span> Copy contribution block</button>
+</div>
+
+<div class="plib-narration">
+  <p>The question you are responding to is this:</p>
+  <p>How does an AI construct meaning — and what role do you play in that process?</p>
+  <p>Ground your answer in something specific from today's interaction. A moment that surprised you, a claim you questioned, an assumption you noticed. Use the four interpretive questions as a guide if it helps, but write in your own voice.</p>
+</div>
+
+<div class="plib-narration">
+  <p>Before you leave:</p>
+  <ol class="plib-narration-list">
+    <li>Copy the URL of your Hokie AI thread using the share option at the top of the conversation.</li>
+    <li>Paste it into the Week 1 submission field in Canvas.</li>
+    <li>That is your submission. Nothing else is required.</li>
+  </ol>
+  <p>See you next week.</p>
+</div>
+
+</div>
+</main>
+<script>
+function announce(msg) {
+  var el = document.getElementById('plib-live');
+  if (!el) { el = document.createElement('div'); el.id = 'plib-live';
+    el.setAttribute('aria-live','polite'); el.setAttribute('aria-atomic','true');
+    el.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;';
+    document.body.appendChild(el); }
+  el.textContent = ''; setTimeout(function(){ el.textContent = msg; }, 50);
+}
+function copyPrompt(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var text = el.innerText || el.textContent;
+  var label = btn.getAttribute('aria-label') || 'Prompt';
+  navigator.clipboard.writeText(text).then(function() {
+    var orig = btn.innerHTML;
+    btn.innerHTML = '&#10003; Copied';
+    btn.classList.add('copied');
+    announce(label.replace('Copy ','').replace(' to clipboard','') + ' copied to clipboard.');
+    setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+  }).catch(function() {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    var orig = btn.innerHTML;
+    btn.innerHTML = '&#10003; Copied';
+    btn.classList.add('copied');
+    announce('Copied to clipboard.');
+    setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
