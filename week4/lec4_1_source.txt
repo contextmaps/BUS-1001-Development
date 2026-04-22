@@ -1,0 +1,134 @@
+[meta]
+course: BUS 1001 — AI Literacy
+week: 4
+lecture: 1
+title: From Asking to Structuring — Why Prompting Is Interaction Design
+duration: 75 minutes
+platform: Hokie AI
+history: ON
+projects: OFF
+incognito: OFF
+rag: OFF
+lecture_mode: exploratory
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Explain why prompting is a form of interaction design, not instruction-giving.
+2. Identify the four structural elements of a well-formed prompt: context, role, task, and constraints.
+3. Recognize common bad prompting habits and explain why they produce unreliable outputs.
+4. Construct a structured prompt and compare it to an unstructured version of the same request.
+5. Reflect on one specific moment where prompt structure changed AI behavior in a way they did not expect.
+[/objectives]
+
+[context actor=student]
+Today you are learning that the prompts you write are not requests — they are interaction structures. Every prompt encodes assumptions about who the AI is, what it should do, and what it should avoid. Most of the time those assumptions are invisible. Today you make them visible by testing what happens when you change them deliberately. The exploration is yours to drive — the S blocks give you a contrast to start from, and the M block is where you find your own example.
+[/context]
+
+[context actor=instructor]
+This is an exploratory lecture. The key move is getting students to see that prompt structure is not about magic words or tricks — it is about encoding behavioral signals. The contrast between the bad and structured prompt in S4.1.1 and S4.1.2 is the anchor. Students should see the difference clearly before entering the M block. In the M block, the most productive explorations happen when students try to break their own prompts — write a structured prompt, then deliberately remove one element and observe what changes.
+[/context]
+
+[context actor=ai]
+This is an exploratory lecture in Week 4 of BUS 1001, a freshman AI literacy course at Virginia Tech's Pamplin College of Business. Students are learning that prompts are interaction structures, not requests. They are exploring the four structural elements — context, role, task, constraints — and testing what happens when those elements are present versus absent. The assessment evaluates exploratory quality: did the student deliberately test what changes when prompt structure changes? Did they push on something unexpected? Developing means passive interaction. Satisfactory means the student noticed a structural difference and noted it. Strong means the student deliberately manipulated prompt structure and identified a specific behavioral change that revealed something about how prompts shape AI behavior.
+[/context]
+
+[instructor_script]
+[0:00] Open with a challenge: "Write the worst possible prompt you can think of for asking AI to help you write a professional email." Give students 30 seconds to think individually. Take 3-4 answers. Write the most representative bad prompt on the board. Then: "Now watch what happens when we take that same request and add structure to it." Do not explain structure yet — let the demonstration do it.
+[6:00] Display S4.1.1 — the vague, overloaded prompt — and paste it live in Hokie AI. Do not comment. Give students 45 seconds to read the output.
+[10:00] Display S4.1.2 — the structured version — and paste it live. Project both outputs. Ask: "What changed? Where did the change come from?" Take 3-4 responses.
+[17:00] Now introduce the four elements: context, role, task, constraints. Map each element back to specific phrases in S4.1.2 on screen. Emphasize: "These are not tricks. They are behavioral signals. The AI uses them to fill in assumptions. If you don't supply them, the AI invents them."
+[25:00] Guided class question: "Which element do you think matters most?" Take responses. Do not resolve — tell students the M block is their chance to find out.
+[30:00] Transition to student-run phase. R0 opener, then M4.1.1. Tell students: "Pick a real task — something you might actually ask an AI to help with. Write a structured prompt using all four elements. Then deliberately remove one element and run the same request. See what changes. That change is what you are writing about."
+[34:00] M block begins. Circulate. For stuck students: "Which element are you most tempted to skip? Start by removing that one."
+[50:00] Wrap M block. Students identify the single structural change that produced the most interesting result.
+[52:00] R block. 12 minutes. 80-120 words.
+[64:00] FAST CLASS EXTENSION: Ask students to add one sentence: "Which of the four elements is hardest to write well, and why?" This deepens the structural understanding.
+[66:00] SLOW CLASS FALLBACK: Reduce M block to 3 turns. Keep R block intact at minimum 60 words.
+[70:00] Submit thread URL to Canvas before leaving.
+[/instructor_script]
+
+[narration]
+The first three weeks of this course focused on reading and evaluating AI output. This week the focus shifts: how do you shape AI behavior before you see the output? The answer is prompt structure. You will run two contrasting prompts today that make the difference visible, then spend time in the M block manipulating structure deliberately to find out which elements matter most for your specific task.
+[/narration]
+
+### R0 [type=marker, assessment=none]
+----------
+BUS 1001 — Week 4 Lecture 1. You are an AI interaction partner for this session. The student will be experimenting with prompt structure — testing what happens when prompts are vague versus structured, and when specific structural elements are present versus absent. When the student runs a vague prompt, respond to what is literally asked without filling in unstated assumptions helpfully — surface the ambiguity by asking clarifying questions or by showing your assumptions explicitly. When the student runs a structured prompt, respond fully and according to the structure provided. This contrast is the learning objective. Acknowledge this session is open.
+----------
+###
+
+[rubric id: R0]
+type: marker
+context_prompt: none
+directive: Session opener — no assessment.
+dimensions: none
+[/rubric]
+
+[discussion]
+Before the demonstration, consider:
+- When you have used AI before, did you ever get an output that felt technically correct but somehow missed what you actually needed? What do you think caused that?
+- What does a prompt need to contain for an AI to understand not just what you are asking, but who you are and what would count as a useful response?
+[/discussion]
+
+### S4.1.1 [type=prompt]
+----------
+Help me write something professional for work about a problem we are having with a project.
+----------
+###
+
+[narration]
+S4.1.1 is deliberately vague. Notice what the AI has to invent — the industry, the role, the relationship, the nature of the problem, the audience. Every word it adds is an assumption you did not supply. Now watch what changes when the same underlying request is structured.
+[/narration]
+
+### S4.1.2 [type=prompt]
+----------
+Context: I am a project manager at a mid-sized software company. We have just missed an internal deadline by one week due to a dependency issue outside our team's control.
+Role: Act as a professional business communication advisor.
+Task: Help me draft a brief status update email to my department head explaining the delay.
+Constraints: Keep it under 150 words. Do not assign blame. Maintain a confident tone. Do not over-apologize.
+----------
+###
+
+[context actor=student]
+Notice that S4.1.2 has four distinct components — context, role, task, and constraints. Each one is doing specific work. The constraints section in particular is shaping what the AI will not do as much as what it will do. In the M block, try removing one of these elements and observe what changes in the output.
+[/context]
+
+[narration]
+The M block is your experimental space. You are not looking for the best output — you are looking for the most informative structural failure. The most useful M block is one where you deliberately remove something and observe precisely what the AI fills in when left to invent it.
+[/narration]
+
+### M4.1.1 OPEN [mode=exploration, assessment=formative | min_turns: 4]
+----------
+Free exploration: prompt structure as interaction design. Start with a real task — something you might actually ask an AI to help with in school or work. Write a structured version using all four elements: context, role, task, and constraints. Run it. Then deliberately remove or weaken one element — try removing the constraints, or leaving the role vague, or stripping the context — and run the same core request again. Compare what you get. Then push further: ask Hokie AI to tell you what assumptions it made in the unstructured version that it did not need to make in the structured one. You are looking for one specific structural change that produced a behavioral difference you did not fully predict. That moment is what you will write about. Interact for at least 4 turns.
+----------
+###
+
+### M4.1.1 CLOSE
+###
+
+[rubric id: M4.1.1]
+type: m_block
+context_prompt: S4.1.1
+directive: Evaluate the quality of the student's structural exploration. Assess whether the student deliberately tested what changes when prompt elements are added, removed, or modified — not just whether they ran structured and unstructured prompts, but whether they pushed the AI to reveal the assumptions it made in each case. Look for evidence of intentional manipulation: did the student change one element at a time and observe the effect? Did they ask the AI to account for its own assumptions?
+narration: Students have been asked to explore prompt structure by deliberately manipulating it. This is an exploratory rubric. Developing means the student ran prompts without deliberate structural testing. Satisfactory means the student compared structured and unstructured versions and noticed a difference. Strong means the student deliberately isolated one structural element, observed its specific effect, and pushed the AI to reveal the assumptions it made when that element was absent.
+dimensions: structural_manipulation_intentionality, assumption_revelation, element_isolation, behavioral_change_identification
+[/rubric]
+
+### R4.1.1 [mode=committed, assessment=summative | length: 80-120]
+----------
+----------
+###
+
+[rubric id: R4.1.1]
+type: reflection
+context_prompt: S4.1.1
+directive: Describe one specific structural change you made to a prompt during your M block exploration — one element you added, removed, or modified. What specifically changed in the AI's output as a result? What does that change reveal about how that structural element shapes AI behavior? Do not describe your whole exploration — focus on one change and say something precise about what it reveals.
+narration: Students have just explored prompt structure by deliberately manipulating structural elements. This reflection asks them to isolate one structural change and articulate what it reveals about AI behavior. Developing means a general statement about structured prompts being better. Satisfactory means a structural change described but not connected to what it reveals about AI behavior. Strong means one specific structural change described with a precise account of what the AI filled in when the element was absent and what that reveals about how prompts shape behavior.
+dimensions: structural_change_specificity, behavioral_effect_description, assumption_revelation, interaction_design_insight
+[/rubric]
+
+[system]
+You are an AI interaction partner in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. When the student runs a vague or unstructured prompt, do not helpfully fill in assumptions without surfacing them. Instead, either ask a clarifying question that reveals what is missing, or respond to what is literally asked and then note what you had to assume. When the student runs a structured prompt, respond fully. During the M block, if asked what assumptions you made in an unstructured version, answer explicitly and specifically. The pedagogical goal is for students to see the assumptions that vague prompts force you to make — be cooperative in making those assumptions visible.
+[/system]
