@@ -1,0 +1,134 @@
+[meta]
+course: BUS 1001 — AI Literacy
+week: 4
+lecture: 2
+title: Practicing Good Interaction Habits — Clear Prompts, Fewer Retries
+duration: 75 minutes
+platform: Hokie AI
+history: ON
+projects: OFF
+incognito: OFF
+rag: OFF
+lecture_mode: consolidation
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Construct a clear, structured prompt using context, role, task, and constraints for a real business scenario.
+2. Evaluate prompt quality independently of output polish — identify whether the prompt or the model caused any gaps.
+3. Recognize when a prompt failure is structural rather than model-related.
+4. Identify the single most important constraint their prompt was missing and explain why it mattered.
+5. Reflect on interaction discipline as a professional habit with consequences beyond prompt quality.
+[/objectives]
+
+[context actor=student]
+Today you write one structured prompt, run it once, and then evaluate it — not the output, the prompt itself. The rule for this session is simple: you get one prompt. No retries, no rewording, no optimization loops. Real professional workflows penalize trial-and-error. Prompt discipline starts here.
+[/context]
+
+[context actor=instructor]
+This is a consolidation lecture. Students explored prompt structure conceptually in Lecture 1. Today they apply it under constraint — one prompt, run once, evaluated critically. The most important shift to reinforce is that students evaluate the prompt, not the output. When circulating, ask: "Was that a prompt failure or a model failure? How do you know?" That question tends to produce the most productive analysis.
+[/context]
+
+[context actor=ai]
+This is a consolidation lecture in Week 4 of BUS 1001. Students learned the four structural elements of prompt design in Lecture 1. Today they write one structured prompt for a real business scenario, run it once, and evaluate the prompt — not the output — for structural quality. The assessment evaluates whether the student can identify a specific structural weakness in their own prompt and articulate what that weakness caused in the output. This is a self-diagnostic exercise, not a performance exercise. Assess whether the student moves from "the output was not great" to "my prompt caused this specific gap."
+[/context]
+
+[instructor_script]
+[0:00] Open with the rule: "Today you get one prompt. One. No retries. Design it well." Write it on the board. Explain: "The discipline of getting it right the first time is a professional skill. Every retry in a real workflow costs time and signals that you did not think carefully enough before asking."
+[5:00] Introduce the scenario framework. Students will choose from three business scenarios and write a structured prompt using all four elements. Walk through the scenario options briefly. Emphasize: the scenario gives them the context — their job is to add role, task, and constraints that make the prompt precise.
+[12:00] Students take 8 minutes to write their prompts before opening Hokie AI. They should not run anything yet. This thinking-first rule is deliberate.
+[20:00] Students paste R0, then paste their one structured prompt. They run it once and save the output. Tell them: "Do not adjust anything. What you have is what you are working with."
+[25:00] M4.2.1 opens. Students evaluate their prompt against three criteria: what the prompt specified clearly, what it left vague, and whether any gap in the output was caused by the prompt or by the model. Circulate. Key question: "Find one place in the output where you can trace a gap back to something missing or ambiguous in your prompt."
+[40:00] Wrap M block. Students identify their single most important missing or weak constraint.
+[42:00] R block. 12 minutes. 80-120 words.
+[54:00] FAST CLASS EXTENSION: Ask students to add one sentence: "If you ran this prompt in a real professional context and shared the output without editing it, what is the most likely consequence?" This raises the professional stakes of prompt discipline.
+[56:00] SLOW CLASS FALLBACK: Reduce M block minimum to 3 turns. Keep the R block intact at minimum 60 words. Focus specifically on the missing constraint — that is the most important finding.
+[68:00] Submit thread URL to Canvas before leaving.
+[/instructor_script]
+
+[narration]
+You have spent three weeks developing the habit of reading AI output critically. Today you apply that same critical habit to your own prompts. The S blocks below give you three business scenarios — choose one and write a structured prompt for it before you open Hokie AI. The discipline of thinking before prompting is the point. The M block is your evaluation workspace. The R block is your structural diagnosis.
+[/narration]
+
+### R0 [type=marker, assessment=none]
+----------
+BUS 1001 — Week 4 Lecture 2. You are an AI task assistant for this session. The student will provide one structured prompt for a business communication task. Respond fully and professionally to what the prompt specifies. Do not volunteer information beyond what the structure asks for. If the prompt is missing a constraint that would normally matter — such as audience, tone, or length — follow the prompt as written and let the gap show in your output rather than filling it in helpfully. When the student moves to the evaluation phase, help them identify what you had to assume because the prompt was silent. Acknowledge this session is open.
+----------
+###
+
+[rubric id: R0]
+type: marker
+context_prompt: none
+directive: Session opener — no assessment.
+dimensions: none
+[/rubric]
+
+[discussion]
+Before you write your prompt, consider:
+- What is the difference between a prompt that is complete and one that is merely long?
+- Which of the four structural elements — context, role, task, constraints — is hardest for you to write well? Why?
+[/discussion]
+
+### S4.2.1 [type=prompt]
+----------
+SCENARIO A — Internal proposal summary.
+Your team has developed a proposal to implement a new project tracking system. You need to write a one-paragraph executive summary of this proposal for senior leadership who are time-constrained and skeptical of new technology investments. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this executive summary. Then paste both your prompt and the AI's output into your thread.
+----------
+###
+
+### S4.2.2 [type=prompt]
+----------
+SCENARIO B — Customer complaint response.
+A customer has sent an angry email complaining that their order was delayed by two weeks with no communication from your company. You are the customer service manager. You need to respond in a way that acknowledges the failure, offers a resolution, and retains the customer relationship. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this response. Then paste both your prompt and the AI's output into your thread.
+----------
+###
+
+### S4.2.3 [type=prompt]
+----------
+SCENARIO C — Job application cover letter opening.
+You are applying for a summer internship at a consulting firm. You want the opening paragraph of your cover letter to establish your professional identity, signal genuine interest in the firm specifically, and invite the reader to continue. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this opening paragraph. Then paste both your prompt and the AI's output into your thread.
+----------
+###
+
+[context actor=student]
+Notice that each S block asks you to write the prompt — not just run a task. This is intentional. The prompt you write is the primary artifact being evaluated today, not the output you receive. Read your output, then ask: "Did the output gap come from my prompt or from the model?"
+[/context]
+
+[narration]
+Once you have your prompt and output, move to the M block. You will use that space to evaluate your own prompt — identifying what it specified clearly, what it left vague, and what gap in the output traces back to a structural weakness in what you wrote.
+[/narration]
+
+### M4.2.1 OPEN [mode=committed, assessment=formative | min_turns: 3]
+----------
+Evaluate your own prompt — not the output — against three criteria. Work through each in conversation with Hokie AI. First — what the prompt specified clearly: identify which of the four structural elements (context, role, task, constraints) was strongest in your prompt and why it mattered. Second — what the prompt left vague: identify at least one place where your prompt was silent or ambiguous and ask Hokie AI what it assumed to fill that gap. Third — prompt failure versus model failure: for any gap or weakness in the output, determine whether it was caused by something missing in your prompt or by a limitation of the model. Ask Hokie AI directly: "Was there anything in my prompt that made this output less precise than it could have been?" Interact for at least 3 turns.
+----------
+###
+
+### M4.2.1 CLOSE
+###
+
+[rubric id: M4.2.1]
+type: m_block
+context_prompt: S4.2.1
+directive: Evaluate the quality of the student's self-diagnostic interaction. Assess whether the student moved beyond evaluating the output to evaluating the prompt itself — identifying specific structural weaknesses and distinguishing between prompt failures and model failures. Look for evidence that the student asked the AI to reveal what assumptions it made where the prompt was silent, and that the student accepted that diagnosis rather than defending their prompt.
+narration: Students have been asked to evaluate their own prompt structure by identifying what they specified clearly, what they left vague, and whether gaps in the output trace to the prompt or the model. This is a consolidation-mode M block requiring self-diagnostic thinking. Developing means the student evaluated output quality without evaluating prompt structure. Satisfactory means the student identified a structural weakness but did not trace it to a specific output gap. Strong means the student identified a specific missing or weak constraint, traced it to a specific gap in the output, and accepted that the gap was caused by their prompt rather than defending it.
+dimensions: self_diagnostic_stance, structural_weakness_identification, prompt_output_gap_tracing, assumption_acknowledgment
+[/rubric]
+
+### R4.2.1 [mode=committed, assessment=summative | length: 80-120]
+----------
+----------
+###
+
+[rubric id: R4.2.1]
+type: reflection
+context_prompt: S4.2.1
+directive: Identify the single most important constraint that was missing or weak in your prompt today. Describe what that constraint should have specified, what the prompt was silent about instead, and what that silence caused in the output. Connect your finding to a principle about why interaction discipline — getting the prompt right before running it — matters in professional contexts where retries are costly or where AI output is used without further editing.
+narration: Students have just evaluated their own prompt structure in a one-shot discipline exercise. This reflection asks them to identify one specific structural weakness and connect it to a professional principle. Developing means a general observation about the value of good prompts. Satisfactory means a specific missing constraint identified but not connected to a professional principle. Strong means a specific missing constraint identified, the output gap it caused described precisely, and a clear connection to why prompt discipline matters professionally — not just for better outputs, but for accountability and reliability.
+dimensions: missing_constraint_specificity, output_gap_connection, professional_discipline_principle, accountability_awareness
+[/rubric]
+
+[system]
+You are an AI task assistant in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. The student will provide one structured prompt for a business communication task. Respond fully to what the prompt specifies. Where the prompt is incomplete — missing a constraint, leaving audience unspecified, or omitting tone guidance — follow the prompt literally rather than helpfully filling in gaps. Let structural omissions show in your output. During the M block evaluation phase, when asked what you assumed where the prompt was silent, answer specifically and honestly. Help the student understand that the gap in the output came from their prompt, not from model limitations, wherever that is true. Be a fair and honest diagnostic partner.
+[/system]

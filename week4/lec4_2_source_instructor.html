@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practicing Good Interaction Habits — Clear Prompts, Fewer Retries</title>
+<style>
+:root {
+  --c-text:#1a1a1a; --c-muted:#4a4a4a;
+  --c-meta-bg:#f4f6f9; --c-meta-border:#d0d7e2;
+  --c-obj-bg:#eef4fb; --c-obj-accent:#1a5da0;
+  --c-ctx-bg:#fffbf0; --c-ctx-border:#e8d8a0; --c-ctx-label:#5c4400;
+  --c-ctx-s-bg:#f0f7ff; --c-ctx-s-border:#a0c8f0; --c-ctx-s-label:#1a4a80;
+  --c-nar-bg:#f9f9f9; --c-nar-border:#bbb;
+  --c-dis-bg:#f0f4ff; --c-dis-border:#8090cc; --c-dis-label:#1e2e80;
+  --c-sys-bg:#f3f0ff; --c-sys-border:#9080d0; --c-sys-label:#3a2090;
+  --c-scr-bg:#fff8e8; --c-scr-border:#d0a030; --c-scr-label:#6b4a00;
+  --c-s-bg:#f0faf4; --c-s-border:#70c090; --c-s-id:#14552f;
+  --c-r-bg:#fff8f0; --c-r-border:#d0a040; --c-r-id:#6b3e00;
+  --c-mk-bg:#f0f0ff; --c-mk-border:#8080c8; --c-mk-id:#2a2a80;
+  --c-m-bg:#f0f8ff; --c-m-border:#70a8d0; --c-m-id:#0a4a70;
+  --c-mc-bg:#f8f8ff; --c-mc-border:#a0a0d0;
+  --c-btn:#14552f; --c-btn-r:#6b3e00; --c-btn-mk:#2a2a80;
+  --c-btn-mo:#0a4a70; --c-btn-mc:#3a3a6a;
+  --radius:8px; --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+.plib-wrap{font-family:var(--font);color:var(--c-text);max-width:800px;margin:0 auto;padding:1rem 0}
+.plib-meta{background:var(--c-meta-bg);border:1px solid var(--c-meta-border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.plib-meta-course{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--c-muted);margin-bottom:4px}
+.plib-meta-title{font-size:20px;font-weight:600;margin:4px 0 8px}
+.plib-meta-week{font-size:13px;color:var(--c-muted);margin-bottom:2px}
+.plib-meta-details{font-size:12px;color:var(--c-muted);margin-top:8px}
+.plib-objectives{background:var(--c-obj-bg);border-left:4px solid var(--c-obj-accent);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem}
+.plib-objectives-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-obj-accent);font-weight:700;margin-bottom:8px}
+.plib-objectives-intro{margin:0 0 8px;font-size:14px;line-height:1.6;font-style:italic;color:var(--c-muted)}
+.plib-objectives-list{margin:0;padding-left:1.25rem}
+.plib-objectives-list li{margin-bottom:6px;font-size:14px;line-height:1.6}
+.plib-context{background:var(--c-ctx-bg);border:1px solid var(--c-ctx-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-context-student{background:var(--c-ctx-s-bg);border-color:var(--c-ctx-s-border)}
+.plib-context-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-ctx-label);font-weight:700;margin-bottom:8px}
+.plib-context-student .plib-context-label{color:var(--c-ctx-s-label)}
+.plib-context-body p{margin:4px 0;font-size:13px;line-height:1.6;color:var(--c-muted)}
+.plib-context-bullet{font-size:13px;color:var(--c-muted);padding-left:1rem;position:relative;margin-bottom:3px}
+.plib-context-bullet::before{content:"–";position:absolute;left:0}
+.plib-script{background:var(--c-scr-bg);border:1px solid var(--c-scr-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-script-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-scr-label);font-weight:700;margin-bottom:10px}
+.plib-script-list{margin:0;padding-left:1.25rem}
+.plib-script-list li{font-size:14px;line-height:1.6;margin-bottom:8px}
+.plib-script-time{font-weight:700;color:var(--c-scr-label);font-family:monospace;background:rgba(208,160,48,.15);padding:1px 6px;border-radius:3px}
+.plib-narration{background:var(--c-nar-bg);border-left:3px solid var(--c-nar-border);padding:.9rem 1.25rem;margin-bottom:1rem;border-radius:0 var(--radius) var(--radius) 0}
+.plib-narration p{margin:0 0 8px;font-size:14px;line-height:1.7}
+.plib-narration p:last-child{margin-bottom:0}
+.plib-narration-list{margin:4px 0;padding-left:1.25rem}
+.plib-narration-list li{font-size:14px;line-height:1.6;margin-bottom:4px}
+.plib-discussion{background:var(--c-dis-bg);border:1px solid var(--c-dis-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-discussion-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-dis-label);font-weight:700;margin-bottom:8px}
+.plib-discussion-intro{margin:0 0 8px;font-size:14px;line-height:1.6;font-style:italic;color:var(--c-dis-label)}
+.plib-discussion-list{margin:0;padding-left:1.25rem}
+.plib-discussion-list li{font-size:14px;line-height:1.6;margin-bottom:6px;color:var(--c-dis-label)}
+.plib-system{background:var(--c-sys-bg);border:1px solid var(--c-sys-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-system-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-sys-label);font-weight:700;margin-bottom:8px}
+.plib-system-note{font-weight:400;text-transform:none;letter-spacing:0;font-style:italic}
+.plib-prompt-text{display:none}
+.plib-prompt-display{font-size:14px;line-height:1.7;white-space:pre-wrap;background:rgba(255,255,255,.6);border-radius:4px;padding:.6rem .8rem;margin-bottom:10px}
+.plib-prompt-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.plib-prompt-id{font-size:12px;font-weight:700;font-family:monospace;padding:2px 7px;border-radius:4px}
+.plib-prompt-type-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-muted);font-weight:600}
+.plib-prompt-s{background:var(--c-s-bg);border:1px solid var(--c-s-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem}
+.plib-prompt-s .plib-prompt-id{color:var(--c-s-id);background:rgba(20,85,47,.1)}
+.plib-prompt-r{background:var(--c-r-bg);border:1px solid var(--c-r-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem}
+.plib-r-id{color:var(--c-r-id)!important;background:rgba(107,62,0,.1)!important}
+.plib-reflect-label{color:var(--c-r-id)!important}
+.plib-reflect-instruction{font-size:13px;color:var(--c-muted);font-style:italic;margin-bottom:10px}
+.plib-prompt-marker{background:var(--c-mk-bg);border:2px solid var(--c-mk-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem}
+.plib-marker-id{color:var(--c-mk-id)!important;background:rgba(42,42,128,.1)!important}
+.plib-marker-label{color:var(--c-mk-id)!important}
+.plib-marker-instruction{font-size:13px;color:var(--c-muted);font-style:italic;margin-bottom:10px}
+.plib-marker-display{border-left:3px solid var(--c-mk-border)}
+.plib-prompt-m{background:var(--c-m-bg);border:1.5px solid var(--c-m-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.5rem}
+.plib-m-id{color:var(--c-m-id)!important;background:rgba(10,74,112,.1)!important}
+.plib-m-label{color:var(--c-m-id)!important}
+.plib-m-badge{font-size:11px;background:var(--c-m-id);color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.plib-m-instructions{background:rgba(255,255,255,.7);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+.plib-m-instructions-label{font-size:12px;font-weight:700;color:var(--c-m-id);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.plib-m-steps{margin:0;padding-left:1.25rem}
+.plib-m-steps li{font-size:13px;line-height:1.6;margin-bottom:4px}
+.plib-m-seed{background:rgba(255,255,255,.5);border-left:3px solid var(--c-m-border);padding:8px 12px;margin-bottom:12px;border-radius:0 4px 4px 0}
+.plib-m-seed-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-m-id);margin-bottom:4px}
+.plib-m-seed-text{font-size:13px;line-height:1.6;white-space:pre-wrap}
+.plib-prompt-m-close{background:var(--c-mc-bg);border:1px dashed var(--c-mc-border);border-radius:var(--radius);padding:.75rem 1.25rem;margin-bottom:1.25rem}
+.plib-m-close-label{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.plib-m-close-instruction{font-size:13px;color:var(--c-muted);font-style:italic;margin-bottom:10px}
+.plib-copy-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;font-size:13px;font-weight:500;border:1.5px solid var(--c-btn);background:transparent;color:var(--c-btn);border-radius:6px;cursor:pointer;transition:background .15s,color .15s}
+.plib-copy-btn:hover{background:var(--c-btn);color:#fff}
+.plib-copy-btn:focus-visible{outline:3px solid #005fcc;outline-offset:2px}
+.plib-copy-btn.copied{background:#333;color:#fff;border-color:#333}
+.plib-copy-btn-reflect{border-color:var(--c-btn-r);color:var(--c-btn-r)}
+.plib-copy-btn-reflect:hover{background:var(--c-btn-r);color:#fff}
+.plib-copy-btn-marker{border-color:var(--c-btn-mk);color:var(--c-btn-mk)}
+.plib-copy-btn-marker:hover{background:var(--c-btn-mk);color:#fff}
+.plib-copy-btn-m-open{border-color:var(--c-btn-mo);color:var(--c-btn-mo)}
+.plib-copy-btn-m-open:hover{background:var(--c-btn-mo);color:#fff}
+.plib-copy-btn-m-close{border-color:var(--c-btn-mc);color:var(--c-btn-mc)}
+.plib-copy-btn-m-close:hover{background:var(--c-btn-mc);color:#fff}
+.plib-textarea{display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;font-family:var(--font);line-height:1.6;border:1.5px solid var(--c-r-border);border-radius:6px;margin-bottom:10px;background:#fff;color:var(--c-text);resize:vertical;min-height:120px}
+.plib-textarea:focus{outline:3px solid #005fcc;outline-offset:2px;border-color:#005fcc}
+.plib-counter{font-size:13px;color:var(--c-muted);margin-bottom:8px;font-variant-numeric:tabular-nums}
+.plib-counter.at-limit{color:#b00020;font-weight:600}
+.plib-counter .plib-count-ok{color:#14552f}
+.plib-counter .plib-count-warn{color:#8a4a00}
+.plib-counter .plib-count-bad{color:#b00020;font-weight:600}
+.plib-counter-min{font-size:12px;color:var(--c-muted);margin-left:8px}
+.plib-warn{font-size:13px;color:#b00020;font-weight:600;margin-bottom:8px;min-height:20px}
+</style>
+</head>
+<body>
+<a href="#main-content" class="plib-skip-link">Skip to main content</a>
+<style>.plib-skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}.plib-skip-link:focus{position:static;width:auto;height:auto;background:#005fcc;color:#fff;padding:8px 16px;font-size:14px;font-weight:600;border-radius:4px;text-decoration:none;display:inline-block;margin:8px;}</style>
+<main id="main-content">
+<div class="plib-wrap">
+<div class="plib-meta">
+  <div class="plib-meta-course">BUS 1001 — AI Literacy</div>
+  <div class="plib-meta-week">Week 4 · Lecture 2</div>
+  <div class="plib-meta-title">Practicing Good Interaction Habits — Clear Prompts, Fewer Retries</div>
+  <div class="plib-meta-details"><span><strong>Duration:</strong> 75 minutes</span>&ensp;·&ensp;<span><strong>Platform:</strong> Hokie AI</span>&ensp;·&ensp;<span><strong>Submission:</strong> Thread URL submitted in Canvas before leaving class</span>&ensp;·&ensp;<span><strong>Lecture Mode:</strong> consolidation</span></div>
+</div>
+
+<div class="plib-objectives">
+  <div class="plib-objectives-label">Learning Objectives</div>
+  <p class="plib-objectives-intro">By the end of this lecture, students will be able to:</p>
+  <ol class="plib-objectives-list">
+    <li>Construct a clear, structured prompt using context, role, task, and constraints for a real business scenario.</li>
+    <li>Evaluate prompt quality independently of output polish — identify whether the prompt or the model caused any gaps.</li>
+    <li>Recognize when a prompt failure is structural rather than model-related.</li>
+    <li>Identify the single most important constraint their prompt was missing and explain why it mattered.</li>
+    <li>Reflect on interaction discipline as a professional habit with consequences beyond prompt quality.</li>
+  </ol>
+</div>
+
+<div class="plib-context plib-context-student">
+  <div class="plib-context-label">&#128203; Note for Students</div>
+  <div class="plib-context-body">
+    <p>Today you write one structured prompt, run it once, and then evaluate it — not the output, the prompt itself. The rule for this session is simple: you get one prompt. No retries, no rewording, no optimization loops. Real professional workflows penalize trial-and-error. Prompt discipline starts here.</p>
+  </div>
+</div>
+
+<div class="plib-context">
+  <div class="plib-context-label">&#9673; Instructor Note</div>
+  <div class="plib-context-body">
+    <p>This is a consolidation lecture. Students explored prompt structure conceptually in Lecture 1. Today they apply it under constraint — one prompt, run once, evaluated critically. The most important shift to reinforce is that students evaluate the prompt, not the output. When circulating, ask: &quot;Was that a prompt failure or a model failure? How do you know?&quot; That question tends to produce the most productive analysis.</p>
+  </div>
+</div>
+
+<div class="plib-script">
+  <div class="plib-script-label">&#9200; Instructor Script</div>
+  <ol class="plib-script-list">
+    <li><span class="plib-script-time">0:00</span> Open with the rule: &quot;Today you get one prompt. One. No retries. Design it well.&quot; Write it on the board. Explain: &quot;The discipline of getting it right the first time is a professional skill. Every retry in a real workflow costs time and signals that you did not think carefully enough before asking.&quot;</li>
+    <li><span class="plib-script-time">5:00</span> Introduce the scenario framework. Students will choose from three business scenarios and write a structured prompt using all four elements. Walk through the scenario options briefly. Emphasize: the scenario gives them the context — their job is to add role, task, and constraints that make the prompt precise.</li>
+    <li><span class="plib-script-time">12:00</span> Students take 8 minutes to write their prompts before opening Hokie AI. They should not run anything yet. This thinking-first rule is deliberate.</li>
+    <li><span class="plib-script-time">20:00</span> Students paste R0, then paste their one structured prompt. They run it once and save the output. Tell them: &quot;Do not adjust anything. What you have is what you are working with.&quot;</li>
+    <li><span class="plib-script-time">25:00</span> M4.2.1 opens. Students evaluate their prompt against three criteria: what the prompt specified clearly, what it left vague, and whether any gap in the output was caused by the prompt or by the model. Circulate. Key question: &quot;Find one place in the output where you can trace a gap back to something missing or ambiguous in your prompt.&quot;</li>
+    <li><span class="plib-script-time">40:00</span> Wrap M block. Students identify their single most important missing or weak constraint.</li>
+    <li><span class="plib-script-time">42:00</span> R block. 12 minutes. 80-120 words.</li>
+    <li><span class="plib-script-time">54:00</span> FAST CLASS EXTENSION: Ask students to add one sentence: &quot;If you ran this prompt in a real professional context and shared the output without editing it, what is the most likely consequence?&quot; This raises the professional stakes of prompt discipline.</li>
+    <li><span class="plib-script-time">56:00</span> SLOW CLASS FALLBACK: Reduce M block minimum to 3 turns. Keep the R block intact at minimum 60 words. Focus specifically on the missing constraint — that is the most important finding.</li>
+    <li><span class="plib-script-time">68:00</span> Submit thread URL to Canvas before leaving.</li>
+  </ol>
+</div>
+
+<div class="plib-narration">
+  <p>You have spent three weeks developing the habit of reading AI output critically. Today you apply that same critical habit to your own prompts. The S blocks below give you three business scenarios — choose one and write a structured prompt for it before you open Hokie AI. The discipline of thinking before prompting is the point. The M block is your evaluation workspace. The R block is your structural diagnosis.</p>
+</div>
+
+<div class="plib-prompt-marker" role="region" aria-label="Session Opener">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-marker-id">R0</span>
+    <span class="plib-prompt-type-label plib-marker-label">Session Opener</span>
+  </div>
+  <p class="plib-marker-instruction">Copy this block and paste it into Hokie AI to begin your session.</p>
+  <div class="plib-prompt-display plib-marker-display">BUS 1001 — Week 4 Lecture 2. You are an AI task assistant for this session. The student will provide one structured prompt for a business communication task. Respond fully and professionally to what the prompt specifies. Do not volunteer information beyond what the structure asks for. If the prompt is missing a constraint that would normally matter — such as audience, tone, or length — follow the prompt as written and let the gap show in your output rather than filling it in helpfully. When the student moves to the evaluation phase, help them identify what you had to assume because the prompt was silent. Acknowledge this session is open.</div>
+  <div class="plib-prompt-text" id="text_prompt_8" data-copy="### R0&#10;----------&#10;BUS 1001 — Week 4 Lecture 2. You are an AI task assistant for this session. The student will provide one structured prompt for a business communication task. Respond fully and professionally to what the prompt specifies. Do not volunteer information beyond what the structure asks for. If the prompt is missing a constraint that would normally matter — such as audience, tone, or length — follow the prompt as written and let the gap show in your output rather than filling it in helpfully. When the student moves to the evaluation phase, help them identify what you had to assume because the prompt was silent. Acknowledge this session is open.&#10;----------&#10;###"></div>
+  <button class="plib-copy-btn plib-copy-btn-marker" onclick="copyPrompt('text_prompt_8', this)"
+          aria-label="Copy session opener to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy session opener
+  </button>
+</div>
+
+<div class="plib-discussion">
+  <div class="plib-discussion-label">&#128172; Discussion</div>
+  <p class="plib-discussion-intro">Before you write your prompt, consider:</p>
+  <ul class="plib-discussion-list">
+    <li>What is the difference between a prompt that is complete and one that is merely long?</li>
+    <li>Which of the four structural elements — context, role, task, constraints — is hardest for you to write well? Why?</li>
+</ul>
+</div>
+
+<div class="plib-prompt-s" role="region" aria-label="Standard Prompt S4.2.1">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id">S4.2.1</span>
+    <span class="plib-prompt-type-label">Standard Prompt</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_11" data-copy="### S4.2.1&#10;----------&#10;SCENARIO A — Internal proposal summary.&#10;Your team has developed a proposal to implement a new project tracking system. You need to write a one-paragraph executive summary of this proposal for senior leadership who are time-constrained and skeptical of new technology investments. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this executive summary. Then paste both your prompt and the AI's output into your thread.&#10;----------&#10;###"></div>
+  <div class="plib-prompt-display">SCENARIO A — Internal proposal summary.
+Your team has developed a proposal to implement a new project tracking system. You need to write a one-paragraph executive summary of this proposal for senior leadership who are time-constrained and skeptical of new technology investments. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this executive summary. Then paste both your prompt and the AI's output into your thread.</div>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_11', this)"
+          aria-label="Copy prompt S4.2.1 to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy prompt
+  </button>
+</div>
+
+<div class="plib-prompt-s" role="region" aria-label="Standard Prompt S4.2.2">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id">S4.2.2</span>
+    <span class="plib-prompt-type-label">Standard Prompt</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_12" data-copy="### S4.2.2&#10;----------&#10;SCENARIO B — Customer complaint response.&#10;A customer has sent an angry email complaining that their order was delayed by two weeks with no communication from your company. You are the customer service manager. You need to respond in a way that acknowledges the failure, offers a resolution, and retains the customer relationship. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this response. Then paste both your prompt and the AI's output into your thread.&#10;----------&#10;###"></div>
+  <div class="plib-prompt-display">SCENARIO B — Customer complaint response.
+A customer has sent an angry email complaining that their order was delayed by two weeks with no communication from your company. You are the customer service manager. You need to respond in a way that acknowledges the failure, offers a resolution, and retains the customer relationship. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this response. Then paste both your prompt and the AI's output into your thread.</div>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_12', this)"
+          aria-label="Copy prompt S4.2.2 to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy prompt
+  </button>
+</div>
+
+<div class="plib-prompt-s" role="region" aria-label="Standard Prompt S4.2.3">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id">S4.2.3</span>
+    <span class="plib-prompt-type-label">Standard Prompt</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_13" data-copy="### S4.2.3&#10;----------&#10;SCENARIO C — Job application cover letter opening.&#10;You are applying for a summer internship at a consulting firm. You want the opening paragraph of your cover letter to establish your professional identity, signal genuine interest in the firm specifically, and invite the reader to continue. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this opening paragraph. Then paste both your prompt and the AI's output into your thread.&#10;----------&#10;###"></div>
+  <div class="plib-prompt-display">SCENARIO C — Job application cover letter opening.
+You are applying for a summer internship at a consulting firm. You want the opening paragraph of your cover letter to establish your professional identity, signal genuine interest in the firm specifically, and invite the reader to continue. Write a structured prompt — with context, role, task, and constraints — that asks Hokie AI to draft this opening paragraph. Then paste both your prompt and the AI's output into your thread.</div>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_13', this)"
+          aria-label="Copy prompt S4.2.3 to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy prompt
+  </button>
+</div>
+
+<div class="plib-context plib-context-student">
+  <div class="plib-context-label">&#128203; Note for Students</div>
+  <div class="plib-context-body">
+    <p>Notice that each S block asks you to write the prompt — not just run a task. This is intentional. The prompt you write is the primary artifact being evaluated today, not the output you receive. Read your output, then ask: &quot;Did the output gap come from my prompt or from the model?&quot;</p>
+  </div>
+</div>
+
+<div class="plib-narration">
+  <p>Once you have your prompt and output, move to the M block. You will use that space to evaluate your own prompt — identifying what it specified clearly, what it left vague, and what gap in the output traces back to a structural weakness in what you wrote.</p>
+</div>
+
+<div class="plib-prompt-m" role="region" aria-label="Multi-turn Block M4.2.1 — Begin">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-m-id">M4.2.1</span>
+    <span class="plib-prompt-type-label plib-m-label">Multi-turn · Exploration</span>
+    
+  </div>
+  <div class="plib-m-instructions">
+    <div class="plib-m-instructions-label">&#128221; How this block works</div>
+    <ol class="plib-m-steps">
+      <li>Click <strong>Copy opening marker</strong> and paste it into Hokie AI to begin this block.</li>
+      <li>Interact with Hokie AI — ask questions, explore, respond. All of this exchange belongs to this block.</li>
+      <li>When finished, use the <strong>Copy closing marker</strong> button below to close the block in your thread.</li>
+    </ol>
+  </div>
+  <div class="plib-m-seed">
+    <div class="plib-m-seed-label">Opening context</div>
+    <div class="plib-m-seed-text">Evaluate your own prompt — not the output — against three criteria. Work through each in conversation with Hokie AI. First — what the prompt specified clearly: identify which of the four structural elements (context, role, task, constraints) was strongest in your prompt and why it mattered. Second — what the prompt left vague: identify at least one place where your prompt was silent or ambiguous and ask Hokie AI what it assumed to fill that gap. Third — prompt failure versus model failure: for any gap or weakness in the output, determine whether it was caused by something missing in your prompt or by a limitation of the model. Ask Hokie AI directly: &quot;Was there anything in my prompt that made this output less precise than it could have been?&quot; Interact for at least 3 turns.</div>
+  </div>
+  <div class="plib-prompt-text" id="text_m_open_16" data-copy="### M4.2.1 OPEN&#10;----------&#10;"></div>
+  <button class="plib-copy-btn plib-copy-btn-m-open" onclick="copyPrompt('text_m_open_16', this)"
+          aria-label="Copy opening marker for block M4.2.1">
+    <span aria-hidden="true">&#9654;</span> Copy opening marker
+  </button>
+</div>
+
+<div class="plib-prompt-m-close" role="region" aria-label="Multi-turn Block M4.2.1 — End">
+  <div class="plib-m-close-label">
+    <span class="plib-prompt-id plib-m-id">M4.2.1</span>
+    <span class="plib-prompt-type-label plib-m-label">End of Multi-turn Block</span>
+  </div>
+  <p class="plib-m-close-instruction">When you have finished your exchange, copy this closing marker and paste it into Hokie AI to close the block.</p>
+  <div class="plib-prompt-text" id="text_m_close_17" data-copy="&#10;----------&#10;### M4.2.1 CLOSE"></div>
+  <button class="plib-copy-btn plib-copy-btn-m-close" onclick="copyPrompt('text_m_close_17', this)"
+          aria-label="Copy closing marker for block M4.2.1">
+    <span aria-hidden="true">&#9646;&#9646;</span> Copy closing marker
+  </button>
+</div>
+
+<div class="plib-prompt-r" role="region" aria-label="Contribution R4.2.1">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-r-id">R4.2.1</span>
+    <span class="plib-prompt-type-label plib-reflect-label">mode=committed, assessment=summative</span>
+  </div>
+  <p class="plib-reflect-instruction">Write your response in the box below (target: 80–120 words), then click Copy and paste into Hokie AI.</p>
+  <textarea id="textarea_19" class="plib-textarea"
+            placeholder="Write your response here..."
+            aria-label="Write your contribution for R4.2.1"
+            data-maxwords="120" data-maxchars="960"
+            oninput="updateCounter('prompt_19', 'textarea_19')"></textarea>
+  <div class="plib-counter" id="counter_prompt_19" aria-live="polite" aria-atomic="true">
+    <span id="wc_prompt_19">0</span> / 120 words&nbsp;·&nbsp;
+    <span id="cc_prompt_19">0</span> / 960 characters
+    <span class="plib-counter-min">minimum: 80 words</span>
+  </div>
+  <div class="plib-warn" id="warn_prompt_19" role="alert" aria-live="polite"></div>
+  <div class="plib-prompt-text" id="text_prompt_19"
+       data-prefix="### R4.2.1&#10;----------&#10;"
+       data-suffix="&#10;----------&#10;###"
+       data-tid="textarea_19"
+       data-maxwords="120"
+       data-maxchars="960"
+       data-minwords="80"></div>
+  <button class="plib-copy-btn plib-copy-btn-reflect" onclick="copyWithInput('prompt_19', this)"
+          aria-label="Copy contribution R4.2.1 to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy contribution
+  </button>
+</div>
+
+<div class="plib-system">
+  <div class="plib-system-label">&#9881; Session System Prompt<span class="plib-system-note"> (Instructor: paste into Hokie AI before class begins)</span></div>
+  <div class="plib-prompt-text" id="text_system_21" data-copy="You are an AI task assistant in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. The student will provide one structured prompt for a business communication task. Respond fully to what the prompt specifies. Where the prompt is incomplete — missing a constraint, leaving audience unspecified, or omitting tone guidance — follow the prompt literally rather than helpfully filling in gaps. Let structural omissions show in your output. During the M block evaluation phase, when asked what you assumed where the prompt was silent, answer specifically and honestly. Help the student understand that the gap in the output came from their prompt, not from model limitations, wherever that is true. Be a fair and honest diagnostic partner."></div>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_system_21', this)"
+          aria-label="Copy session system prompt to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy system prompt
+  </button>
+</div>
+
+</div>
+</main>
+<script>
+function countWords(text) {
+  return text.trim() === '' ? 0 : text.trim().split(/[ \t\n\r]+/).length;
+}
+function announce(msg) {
+  var el = document.getElementById('plib-live');
+  if (!el) { el = document.createElement('div'); el.id = 'plib-live';
+    el.setAttribute('aria-live','polite'); el.setAttribute('aria-atomic','true');
+    el.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;';
+    document.body.appendChild(el); }
+  el.textContent = ''; setTimeout(function(){ el.textContent = msg; }, 50);
+}
+function autoResize(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight + 2, 600) + 'px';
+}
+function updateCounter(bid, tid) {
+  var ta = document.getElementById(tid);
+  var textEl = document.getElementById('text_' + bid);
+  var wcEl = document.getElementById('wc_' + bid);
+  var ccEl = document.getElementById('cc_' + bid);
+  var ctrEl = document.getElementById('counter_' + bid);
+  if (!ta) return;
+  autoResize(ta);
+  var maxwords = textEl ? parseInt(textEl.getAttribute('data-maxwords') || '0') : 0;
+  var maxchars = textEl ? parseInt(textEl.getAttribute('data-maxchars') || '0') : 0;
+  var minwords = textEl ? parseInt(textEl.getAttribute('data-minwords') || '0') : 0;
+  var text = ta.value;
+  var words = countWords(text);
+  var chars = text.length;
+  if (maxchars && chars > maxchars) {
+    ta.value = text.substring(0, maxchars);
+    text = ta.value; words = countWords(text); chars = text.length;
+  }
+  if (wcEl) wcEl.textContent = words;
+  if (ccEl) ccEl.textContent = chars;
+  if (ctrEl && maxwords) {
+    var pct = words / maxwords;
+    var cls = pct >= 1.0 ? 'bad' : (pct >= 0.8 || (minwords && words < minwords)) ? 'warn' : 'ok';
+    if (pct >= 1.0) { ctrEl.className = 'plib-counter at-limit'; }
+    else { ctrEl.className = 'plib-counter'; }
+    if (wcEl) wcEl.className = 'plib-count-' + cls;
+    if (ccEl) ccEl.className = 'plib-count-' + cls;
+  }
+}
+function copyPrompt(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var text = (el.getAttribute('data-copy') || el.textContent || '').replace(/&#10;/g, '\n');
+  var label = (btn.getAttribute('aria-label') || 'item').replace('Copy ','').replace(' to clipboard','');
+  doCopy(text, btn, label + ' copied.', '&#10003; Copied', 2000);
+}
+function copyWithInput(bid, btn) {
+  var el = document.getElementById('text_' + bid);
+  var warnEl = document.getElementById('warn_' + bid);
+  if (!el) return;
+  var tid = el.getAttribute('data-tid');
+  var inputEl = document.getElementById(tid);
+  var prefix = (el.getAttribute('data-prefix') || '').replace(/&#10;/g, '\n');
+  var suffix = (el.getAttribute('data-suffix') || '').replace(/&#10;/g, '\n');
+  var userText = inputEl ? inputEl.value.trim() : '';
+  if (userText.replace(/[\t\n\r ]/g, '').length < 2) {
+    if (warnEl) warnEl.textContent = 'Please write your response before copying.';
+    if (inputEl) inputEl.focus(); return;
+  }
+  var maxwords = parseInt(el.getAttribute('data-maxwords') || '0');
+  var maxchars = parseInt(el.getAttribute('data-maxchars') || '0');
+  var minwords = parseInt(el.getAttribute('data-minwords') || '0');
+  if (minwords && countWords(userText) < minwords) {
+    if (warnEl) warnEl.textContent = 'Response is below the minimum of ' + minwords + ' words.';
+    if (inputEl) inputEl.focus(); return;
+  }
+  if (maxwords && countWords(userText) > maxwords) {
+    if (warnEl) warnEl.textContent = 'Response exceeds the ' + maxwords + ' word limit.';
+    if (inputEl) inputEl.focus(); return;
+  }
+  if (warnEl) warnEl.textContent = '';
+  doCopy(prefix + userText + suffix, btn, 'Copied. Paste into Hokie AI.', '&#10003; Copied — paste into Hokie AI', 3000);
+}
+function doCopy(text, btn, announcement, label, duration) {
+  function ok() {
+    var orig = btn.innerHTML; btn.innerHTML = label; btn.classList.add('copied');
+    announce(announcement);
+    setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, duration);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(ok).catch(function() { fallback(text, ok); });
+  } else { fallback(text, ok); }
+}
+function fallback(text, cb) {
+  var ta = document.createElement('textarea'); ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>
