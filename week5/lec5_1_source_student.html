@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When AI Is Wrong — Recognizing Failure Modes Before They Cost You</title>
+<style>
+:root {
+  --c-text:#1a1a1a; --c-muted:#4a4a4a;
+  --c-meta-bg:#f4f6f9; --c-meta-border:#d0d7e2;
+  --c-obj-bg:#eef4fb; --c-obj-accent:#1a5da0;
+  --c-ctx-bg:#fffbf0; --c-ctx-border:#e8d8a0; --c-ctx-label:#5c4400;
+  --c-ctx-s-bg:#f0f7ff; --c-ctx-s-border:#a0c8f0; --c-ctx-s-label:#1a4a80;
+  --c-nar-bg:#f9f9f9; --c-nar-border:#bbb;
+  --c-dis-bg:#f0f4ff; --c-dis-border:#8090cc; --c-dis-label:#1e2e80;
+  --c-sys-bg:#f3f0ff; --c-sys-border:#9080d0; --c-sys-label:#3a2090;
+  --c-scr-bg:#fff8e8; --c-scr-border:#d0a030; --c-scr-label:#6b4a00;
+  --c-s-bg:#f0faf4; --c-s-border:#70c090; --c-s-id:#14552f;
+  --c-r-bg:#fff8f0; --c-r-border:#d0a040; --c-r-id:#6b3e00;
+  --c-mk-bg:#f0f0ff; --c-mk-border:#8080c8; --c-mk-id:#2a2a80;
+  --c-m-bg:#f0f8ff; --c-m-border:#70a8d0; --c-m-id:#0a4a70;
+  --c-mc-bg:#f8f8ff; --c-mc-border:#a0a0d0;
+  --c-btn:#14552f; --c-btn-r:#6b3e00; --c-btn-mk:#2a2a80;
+  --c-btn-mo:#0a4a70; --c-btn-mc:#3a3a6a;
+  --radius:8px; --font:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+.plib-wrap{font-family:var(--font);color:var(--c-text);max-width:800px;margin:0 auto;padding:1rem 0}
+.plib-meta{background:var(--c-meta-bg);border:1px solid var(--c-meta-border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.plib-meta-course{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--c-muted);margin-bottom:4px}
+.plib-meta-title{font-size:20px;font-weight:600;margin:4px 0 8px}
+.plib-meta-week{font-size:13px;color:var(--c-muted);margin-bottom:2px}
+.plib-meta-details{font-size:12px;color:var(--c-muted);margin-top:8px}
+.plib-objectives{background:var(--c-obj-bg);border-left:4px solid var(--c-obj-accent);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.5rem}
+.plib-objectives-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-obj-accent);font-weight:700;margin-bottom:8px}
+.plib-objectives-intro{margin:0 0 8px;font-size:14px;line-height:1.6;font-style:italic;color:var(--c-muted)}
+.plib-objectives-list{margin:0;padding-left:1.25rem}
+.plib-objectives-list li{margin-bottom:6px;font-size:14px;line-height:1.6}
+.plib-context{background:var(--c-ctx-bg);border:1px solid var(--c-ctx-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-context-student{background:var(--c-ctx-s-bg);border-color:var(--c-ctx-s-border)}
+.plib-context-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-ctx-label);font-weight:700;margin-bottom:8px}
+.plib-context-student .plib-context-label{color:var(--c-ctx-s-label)}
+.plib-context-body p{margin:4px 0;font-size:13px;line-height:1.6;color:var(--c-muted)}
+.plib-context-bullet{font-size:13px;color:var(--c-muted);padding-left:1rem;position:relative;margin-bottom:3px}
+.plib-context-bullet::before{content:"–";position:absolute;left:0}
+.plib-script{background:var(--c-scr-bg);border:1px solid var(--c-scr-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-script-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-scr-label);font-weight:700;margin-bottom:10px}
+.plib-script-list{margin:0;padding-left:1.25rem}
+.plib-script-list li{font-size:14px;line-height:1.6;margin-bottom:8px}
+.plib-script-time{font-weight:700;color:var(--c-scr-label);font-family:monospace;background:rgba(208,160,48,.15);padding:1px 6px;border-radius:3px}
+.plib-narration{background:var(--c-nar-bg);border-left:3px solid var(--c-nar-border);padding:.9rem 1.25rem;margin-bottom:1rem;border-radius:0 var(--radius) var(--radius) 0}
+.plib-narration p{margin:0 0 8px;font-size:14px;line-height:1.7}
+.plib-narration p:last-child{margin-bottom:0}
+.plib-narration-list{margin:4px 0;padding-left:1.25rem}
+.plib-narration-list li{font-size:14px;line-height:1.6;margin-bottom:4px}
+.plib-discussion{background:var(--c-dis-bg);border:1px solid var(--c-dis-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-discussion-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-dis-label);font-weight:700;margin-bottom:8px}
+.plib-discussion-intro{margin:0 0 8px;font-size:14px;line-height:1.6;font-style:italic;color:var(--c-dis-label)}
+.plib-discussion-list{margin:0;padding-left:1.25rem}
+.plib-discussion-list li{font-size:14px;line-height:1.6;margin-bottom:6px;color:var(--c-dis-label)}
+.plib-system{background:var(--c-sys-bg);border:1px solid var(--c-sys-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1rem}
+.plib-system-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-sys-label);font-weight:700;margin-bottom:8px}
+.plib-system-note{font-weight:400;text-transform:none;letter-spacing:0;font-style:italic}
+.plib-prompt-text{display:none}
+.plib-prompt-display{font-size:14px;line-height:1.7;white-space:pre-wrap;background:rgba(255,255,255,.6);border-radius:4px;padding:.6rem .8rem;margin-bottom:10px}
+.plib-prompt-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.plib-prompt-id{font-size:12px;font-weight:700;font-family:monospace;padding:2px 7px;border-radius:4px}
+.plib-prompt-type-label{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--c-muted);font-weight:600}
+.plib-prompt-s{background:var(--c-s-bg);border:1px solid var(--c-s-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem}
+.plib-prompt-s .plib-prompt-id{color:var(--c-s-id);background:rgba(20,85,47,.1)}
+.plib-prompt-r{background:var(--c-r-bg);border:1px solid var(--c-r-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem}
+.plib-r-id{color:var(--c-r-id)!important;background:rgba(107,62,0,.1)!important}
+.plib-reflect-label{color:var(--c-r-id)!important}
+.plib-reflect-instruction{font-size:13px;color:var(--c-muted);font-style:italic;margin-bottom:10px}
+.plib-prompt-marker{background:var(--c-mk-bg);border:2px solid var(--c-mk-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem}
+.plib-marker-id{color:var(--c-mk-id)!important;background:rgba(42,42,128,.1)!important}
+.plib-marker-label{color:var(--c-mk-id)!important}
+.plib-marker-instruction{font-size:13px;color:var(--c-muted);font-style:italic;margin-bottom:10px}
+.plib-marker-display{border-left:3px solid var(--c-mk-border)}
+.plib-prompt-m{background:var(--c-m-bg);border:1.5px solid var(--c-m-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.5rem}
+.plib-m-id{color:var(--c-m-id)!important;background:rgba(10,74,112,.1)!important}
+.plib-m-label{color:var(--c-m-id)!important}
+.plib-m-badge{font-size:11px;background:var(--c-m-id);color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.plib-m-instructions{background:rgba(255,255,255,.7);border-radius:6px;padding:10px 14px;margin-bottom:12px}
+.plib-m-instructions-label{font-size:12px;font-weight:700;color:var(--c-m-id);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.plib-m-steps{margin:0;padding-left:1.25rem}
+.plib-m-steps li{font-size:13px;line-height:1.6;margin-bottom:4px}
+.plib-m-seed{background:rgba(255,255,255,.5);border-left:3px solid var(--c-m-border);padding:8px 12px;margin-bottom:12px;border-radius:0 4px 4px 0}
+.plib-m-seed-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-m-id);margin-bottom:4px}
+.plib-m-seed-text{font-size:13px;line-height:1.6;white-space:pre-wrap}
+.plib-prompt-m-close{background:var(--c-mc-bg);border:1px dashed var(--c-mc-border);border-radius:var(--radius);padding:.75rem 1.25rem;margin-bottom:1.25rem}
+.plib-m-close-label{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.plib-m-close-instruction{font-size:13px;color:var(--c-muted);font-style:italic;margin-bottom:10px}
+.plib-copy-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;font-size:13px;font-weight:500;border:1.5px solid var(--c-btn);background:transparent;color:var(--c-btn);border-radius:6px;cursor:pointer;transition:background .15s,color .15s}
+.plib-copy-btn:hover{background:var(--c-btn);color:#fff}
+.plib-copy-btn:focus-visible{outline:3px solid #005fcc;outline-offset:2px}
+.plib-copy-btn.copied{background:#333;color:#fff;border-color:#333}
+.plib-copy-btn-reflect{border-color:var(--c-btn-r);color:var(--c-btn-r)}
+.plib-copy-btn-reflect:hover{background:var(--c-btn-r);color:#fff}
+.plib-copy-btn-marker{border-color:var(--c-btn-mk);color:var(--c-btn-mk)}
+.plib-copy-btn-marker:hover{background:var(--c-btn-mk);color:#fff}
+.plib-copy-btn-m-open{border-color:var(--c-btn-mo);color:var(--c-btn-mo)}
+.plib-copy-btn-m-open:hover{background:var(--c-btn-mo);color:#fff}
+.plib-copy-btn-m-close{border-color:var(--c-btn-mc);color:var(--c-btn-mc)}
+.plib-copy-btn-m-close:hover{background:var(--c-btn-mc);color:#fff}
+.plib-textarea{display:block;width:100%;box-sizing:border-box;padding:10px 12px;font-size:14px;font-family:var(--font);line-height:1.6;border:1.5px solid var(--c-r-border);border-radius:6px;margin-bottom:10px;background:#fff;color:var(--c-text);resize:vertical;min-height:120px}
+.plib-textarea:focus{outline:3px solid #005fcc;outline-offset:2px;border-color:#005fcc}
+.plib-counter{font-size:13px;color:var(--c-muted);margin-bottom:8px;font-variant-numeric:tabular-nums}
+.plib-counter.at-limit{color:#b00020;font-weight:600}
+.plib-counter .plib-count-ok{color:#14552f}
+.plib-counter .plib-count-warn{color:#8a4a00}
+.plib-counter .plib-count-bad{color:#b00020;font-weight:600}
+.plib-counter-min{font-size:12px;color:var(--c-muted);margin-left:8px}
+.plib-warn{font-size:13px;color:#b00020;font-weight:600;margin-bottom:8px;min-height:20px}
+</style>
+</head>
+<body>
+<a href="#main-content" class="plib-skip-link">Skip to main content</a>
+<style>.plib-skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;}.plib-skip-link:focus{position:static;width:auto;height:auto;background:#005fcc;color:#fff;padding:8px 16px;font-size:14px;font-weight:600;border-radius:4px;text-decoration:none;display:inline-block;margin:8px;}</style>
+<main id="main-content">
+<div class="plib-wrap">
+<div class="plib-meta">
+  <div class="plib-meta-course">BUS 1001 — AI Literacy</div>
+  <div class="plib-meta-week">Week 5 · Lecture 1</div>
+  <div class="plib-meta-title">When AI Is Wrong — Recognizing Failure Modes Before They Cost You</div>
+  <div class="plib-meta-details"><span><strong>Duration:</strong> 75 minutes</span>&ensp;·&ensp;<span><strong>Platform:</strong> Hokie AI</span>&ensp;·&ensp;<span><strong>Submission:</strong> Thread URL submitted in Canvas before leaving class</span>&ensp;·&ensp;<span><strong>Lecture Mode:</strong> exploratory</span></div>
+</div>
+
+<div class="plib-objectives">
+  <div class="plib-objectives-label">Learning Objectives</div>
+  <p class="plib-objectives-intro">By the end of this lecture, students will be able to:</p>
+  <ol class="plib-objectives-list">
+    <li>Name at least three distinct AI failure modes: hallucination, confident incorrectness, outdated information, and framing bias.</li>
+    <li>Distinguish between a failure visible in the output and one requiring external knowledge to detect.</li>
+    <li>Construct a prompt designed to expose a specific failure mode.</li>
+    <li>Identify at least one moment in a live interaction where the output cannot be trusted without verification.</li>
+    <li>Reflect on what a failure mode reveals about when AI output requires the most oversight.</li>
+  </ol>
+</div>
+
+<div class="plib-context plib-context-student">
+  <div class="plib-context-label">&#128203; Note for Students</div>
+  <div class="plib-context-body">
+    <p>Today you are learning to find AI failures before they find you. AI systems fail in specific, predictable ways — and the most dangerous failures are the ones that look correct. Your job today is to become a failure hunter: design prompts that are likely to expose a failure, run them, and document what you find. Come in with a hypothesis about where the AI will fail, and leave with evidence.</p>
+  </div>
+</div>
+
+<div class="plib-narration">
+  <p>For four weeks you have been learning to read, structure, and evaluate AI output. This week the lens sharpens: you are learning to find what is wrong before it costs you something. AI systems fail in specific, predictable patterns. Today you study two of those patterns live, then design your own failure-provocation test in the M block. Come in with a hypothesis. Leave with evidence.</p>
+</div>
+
+<div class="plib-prompt-marker" role="region" aria-label="Session Opener">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-marker-id">R0</span>
+    <span class="plib-prompt-type-label plib-marker-label">Session Opener</span>
+  </div>
+  <p class="plib-marker-instruction">Copy this block and paste it into Hokie AI to begin your session.</p>
+  <div class="plib-prompt-display plib-marker-display">BUS 1001 — Week 5 Lecture 1. You are an AI reasoning partner for this session. The student will be testing AI failure modes — hallucination, confident incorrectness, outdated information, and framing bias. Respond naturally to prompts as you normally would. Do not preemptively flag uncertainty or disclaim accuracy unless the student explicitly asks you to verify a claim. When a student directly asks you to verify something, asks where information came from, or asks whether a specific detail is accurate, then engage honestly. The pedagogical goal is for students to experience real failure modes and then probe them — not to have failures pre-emptively flagged before they can be observed. Acknowledge this session is open.</div>
+  <div class="plib-prompt-text" id="text_prompt_8" data-copy="### R0&#10;----------&#10;BUS 1001 — Week 5 Lecture 1. You are an AI reasoning partner for this session. The student will be testing AI failure modes — hallucination, confident incorrectness, outdated information, and framing bias. Respond naturally to prompts as you normally would. Do not preemptively flag uncertainty or disclaim accuracy unless the student explicitly asks you to verify a claim. When a student directly asks you to verify something, asks where information came from, or asks whether a specific detail is accurate, then engage honestly. The pedagogical goal is for students to experience real failure modes and then probe them — not to have failures pre-emptively flagged before they can be observed. Acknowledge this session is open.&#10;----------&#10;###"></div>
+  <button class="plib-copy-btn plib-copy-btn-marker" onclick="copyPrompt('text_prompt_8', this)"
+          aria-label="Copy session opener to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy session opener
+  </button>
+</div>
+
+<div class="plib-discussion">
+  <div class="plib-discussion-label">&#128172; Discussion</div>
+  <p class="plib-discussion-intro">Before the demonstration, consider:</p>
+  <ul class="plib-discussion-list">
+    <li>What is the difference between an AI output that is wrong and one that is wrong in a way you cannot detect?</li>
+    <li>Which failure mode would be most expensive in a professional context — hallucination, outdated information, or framing bias? Why?</li>
+</ul>
+</div>
+
+<div class="plib-prompt-s" role="region" aria-label="Standard Prompt S5.1.1">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id">S5.1.1</span>
+    <span class="plib-prompt-type-label">Standard Prompt</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_11" data-copy="### S5.1.1&#10;----------&#10;What were the key findings of the McKinsey Global Institute report on AI adoption in the retail sector published in 2023? Include specific statistics and named authors if possible.&#10;----------&#10;###"></div>
+  <div class="plib-prompt-display">What were the key findings of the McKinsey Global Institute report on AI adoption in the retail sector published in 2023? Include specific statistics and named authors if possible.</div>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_11', this)"
+          aria-label="Copy prompt S5.1.1 to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy prompt
+  </button>
+</div>
+
+<div class="plib-narration">
+  <p>S5.1.1 asks for specific details about a real type of document. Notice what the prompt demands — named authors, specific statistics, a particular year. That specificity pressure is what tends to produce hallucination. When you see confident specific details, your first instinct should be: how would I verify this?</p>
+</div>
+
+<div class="plib-prompt-s" role="region" aria-label="Standard Prompt S5.1.2">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id">S5.1.2</span>
+    <span class="plib-prompt-type-label">Standard Prompt</span>
+  </div>
+  <div class="plib-prompt-text" id="text_prompt_14" data-copy="### S5.1.2&#10;----------&#10;Should our company adopt AI tools for customer service? Give me a clear recommendation.&#10;----------&#10;###"></div>
+  <div class="plib-prompt-display">Should our company adopt AI tools for customer service? Give me a clear recommendation.</div>
+  <button class="plib-copy-btn" onclick="copyPrompt('text_prompt_14', this)"
+          aria-label="Copy prompt S5.1.2 to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy prompt
+  </button>
+</div>
+
+<div class="plib-narration">
+  <p>S5.1.2 is a different kind of failure. The AI will give a recommendation without knowing your company's size, budget, or customer base. The failure is invisible unless you surface the suppressed assumptions.</p>
+</div>
+
+<div class="plib-prompt-m" role="region" aria-label="Multi-turn Block M5.1.1 — Begin">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-m-id">M5.1.1</span>
+    <span class="plib-prompt-type-label plib-m-label">Multi-turn · Exploration</span>
+    
+  </div>
+  <div class="plib-m-instructions">
+    <div class="plib-m-instructions-label">&#128221; How this block works</div>
+    <ol class="plib-m-steps">
+      <li>Click <strong>Copy opening marker</strong> and paste it into Hokie AI to begin this block.</li>
+      <li>Interact with Hokie AI — ask questions, explore, respond. All of this exchange belongs to this block.</li>
+      <li>When finished, use the <strong>Copy closing marker</strong> button below to close the block in your thread.</li>
+    </ol>
+  </div>
+  <div class="plib-m-seed">
+    <div class="plib-m-seed-label">Opening context</div>
+    <div class="plib-m-seed-text">Failure hunting: design and execute a failure-provocation test. Choose one failure mode — hallucination, confident incorrectness, outdated information, or framing bias — and design a prompt you believe will provoke it. State your hypothesis before running it: &quot;I think this prompt will produce [failure mode] because...&quot; Then run it. If the failure appears, document it precisely — quote the specific output that is wrong or misleading. Push further: ask the AI whether it can verify the claim, or where the information came from. Your goal is to find one specific moment where the output cannot be trusted without external verification. Interact for at least 4 turns.</div>
+  </div>
+  <div class="plib-prompt-text" id="text_m_open_17" data-copy="### M5.1.1 OPEN&#10;----------&#10;"></div>
+  <button class="plib-copy-btn plib-copy-btn-m-open" onclick="copyPrompt('text_m_open_17', this)"
+          aria-label="Copy opening marker for block M5.1.1">
+    <span aria-hidden="true">&#9654;</span> Copy opening marker
+  </button>
+</div>
+
+<div class="plib-prompt-m-close" role="region" aria-label="Multi-turn Block M5.1.1 — End">
+  <div class="plib-m-close-label">
+    <span class="plib-prompt-id plib-m-id">M5.1.1</span>
+    <span class="plib-prompt-type-label plib-m-label">End of Multi-turn Block</span>
+  </div>
+  <p class="plib-m-close-instruction">When you have finished your exchange, copy this closing marker and paste it into Hokie AI to close the block.</p>
+  <div class="plib-prompt-text" id="text_m_close_18" data-copy="&#10;----------&#10;### M5.1.1 CLOSE"></div>
+  <button class="plib-copy-btn plib-copy-btn-m-close" onclick="copyPrompt('text_m_close_18', this)"
+          aria-label="Copy closing marker for block M5.1.1">
+    <span aria-hidden="true">&#9646;&#9646;</span> Copy closing marker
+  </button>
+</div>
+
+<div class="plib-prompt-r" role="region" aria-label="Contribution R5.1.1">
+  <div class="plib-prompt-header">
+    <span class="plib-prompt-id plib-r-id">R5.1.1</span>
+    <span class="plib-prompt-type-label plib-reflect-label">mode=committed, assessment=summative</span>
+  </div>
+  <p class="plib-reflect-instruction">Write your response in the box below (target: 80–120 words), then click Copy and paste into Hokie AI.</p>
+  <textarea id="textarea_20" class="plib-textarea"
+            placeholder="Write your response here..."
+            aria-label="Write your contribution for R5.1.1"
+            data-maxwords="120" data-maxchars="960"
+            oninput="updateCounter('prompt_20', 'textarea_20')"></textarea>
+  <div class="plib-counter" id="counter_prompt_20" aria-live="polite" aria-atomic="true">
+    <span id="wc_prompt_20">0</span> / 120 words&nbsp;·&nbsp;
+    <span id="cc_prompt_20">0</span> / 960 characters
+    <span class="plib-counter-min">minimum: 80 words</span>
+  </div>
+  <div class="plib-warn" id="warn_prompt_20" role="alert" aria-live="polite"></div>
+  <div class="plib-prompt-text" id="text_prompt_20"
+       data-prefix="### R5.1.1&#10;----------&#10;"
+       data-suffix="&#10;----------&#10;###"
+       data-tid="textarea_20"
+       data-maxwords="120"
+       data-maxchars="960"
+       data-minwords="80"></div>
+  <button class="plib-copy-btn plib-copy-btn-reflect" onclick="copyWithInput('prompt_20', this)"
+          aria-label="Copy contribution R5.1.1 to clipboard">
+    <span aria-hidden="true">&#128203;</span> Copy contribution
+  </button>
+</div>
+
+</div>
+</main>
+<script>
+function countWords(text) {
+  return text.trim() === '' ? 0 : text.trim().split(/[ \t\n\r]+/).length;
+}
+function announce(msg) {
+  var el = document.getElementById('plib-live');
+  if (!el) { el = document.createElement('div'); el.id = 'plib-live';
+    el.setAttribute('aria-live','polite'); el.setAttribute('aria-atomic','true');
+    el.style.cssText='position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;';
+    document.body.appendChild(el); }
+  el.textContent = ''; setTimeout(function(){ el.textContent = msg; }, 50);
+}
+function autoResize(ta) {
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight + 2, 600) + 'px';
+}
+function updateCounter(bid, tid) {
+  var ta = document.getElementById(tid);
+  var textEl = document.getElementById('text_' + bid);
+  var wcEl = document.getElementById('wc_' + bid);
+  var ccEl = document.getElementById('cc_' + bid);
+  var ctrEl = document.getElementById('counter_' + bid);
+  if (!ta) return;
+  autoResize(ta);
+  var maxwords = textEl ? parseInt(textEl.getAttribute('data-maxwords') || '0') : 0;
+  var maxchars = textEl ? parseInt(textEl.getAttribute('data-maxchars') || '0') : 0;
+  var minwords = textEl ? parseInt(textEl.getAttribute('data-minwords') || '0') : 0;
+  var text = ta.value;
+  var words = countWords(text);
+  var chars = text.length;
+  if (maxchars && chars > maxchars) {
+    ta.value = text.substring(0, maxchars);
+    text = ta.value; words = countWords(text); chars = text.length;
+  }
+  if (wcEl) wcEl.textContent = words;
+  if (ccEl) ccEl.textContent = chars;
+  if (ctrEl && maxwords) {
+    var pct = words / maxwords;
+    var cls = pct >= 1.0 ? 'bad' : (pct >= 0.8 || (minwords && words < minwords)) ? 'warn' : 'ok';
+    if (pct >= 1.0) { ctrEl.className = 'plib-counter at-limit'; }
+    else { ctrEl.className = 'plib-counter'; }
+    if (wcEl) wcEl.className = 'plib-count-' + cls;
+    if (ccEl) ccEl.className = 'plib-count-' + cls;
+  }
+}
+function copyPrompt(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var text = (el.getAttribute('data-copy') || el.textContent || '').replace(/&#10;/g, '\n');
+  var label = (btn.getAttribute('aria-label') || 'item').replace('Copy ','').replace(' to clipboard','');
+  doCopy(text, btn, label + ' copied.', '&#10003; Copied', 2000);
+}
+function copyWithInput(bid, btn) {
+  var el = document.getElementById('text_' + bid);
+  var warnEl = document.getElementById('warn_' + bid);
+  if (!el) return;
+  var tid = el.getAttribute('data-tid');
+  var inputEl = document.getElementById(tid);
+  var prefix = (el.getAttribute('data-prefix') || '').replace(/&#10;/g, '\n');
+  var suffix = (el.getAttribute('data-suffix') || '').replace(/&#10;/g, '\n');
+  var userText = inputEl ? inputEl.value.trim() : '';
+  if (userText.replace(/[\t\n\r ]/g, '').length < 2) {
+    if (warnEl) warnEl.textContent = 'Please write your response before copying.';
+    if (inputEl) inputEl.focus(); return;
+  }
+  var maxwords = parseInt(el.getAttribute('data-maxwords') || '0');
+  var maxchars = parseInt(el.getAttribute('data-maxchars') || '0');
+  var minwords = parseInt(el.getAttribute('data-minwords') || '0');
+  if (minwords && countWords(userText) < minwords) {
+    if (warnEl) warnEl.textContent = 'Response is below the minimum of ' + minwords + ' words.';
+    if (inputEl) inputEl.focus(); return;
+  }
+  if (maxwords && countWords(userText) > maxwords) {
+    if (warnEl) warnEl.textContent = 'Response exceeds the ' + maxwords + ' word limit.';
+    if (inputEl) inputEl.focus(); return;
+  }
+  if (warnEl) warnEl.textContent = '';
+  doCopy(prefix + userText + suffix, btn, 'Copied. Paste into Hokie AI.', '&#10003; Copied — paste into Hokie AI', 3000);
+}
+function doCopy(text, btn, announcement, label, duration) {
+  function ok() {
+    var orig = btn.innerHTML; btn.innerHTML = label; btn.classList.add('copied');
+    announce(announcement);
+    setTimeout(function() { btn.innerHTML = orig; btn.classList.remove('copied'); }, duration);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(ok).catch(function() { fallback(text, ok); });
+  } else { fallback(text, ok); }
+}
+function fallback(text, cb) {
+  var ta = document.createElement('textarea'); ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0;';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>

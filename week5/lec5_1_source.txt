@@ -1,0 +1,134 @@
+[meta]
+course: BUS 1001 — AI Literacy
+week: 5
+lecture: 1
+title: When AI Is Wrong — Recognizing Failure Modes Before They Cost You
+duration: 75 minutes
+platform: Hokie AI
+history: ON
+projects: OFF
+incognito: OFF
+rag: OFF
+lecture_mode: exploratory
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Name at least three distinct AI failure modes: hallucination, confident incorrectness, outdated information, and framing bias.
+2. Distinguish between a failure visible in the output and one requiring external knowledge to detect.
+3. Construct a prompt designed to expose a specific failure mode.
+4. Identify at least one moment in a live interaction where the output cannot be trusted without verification.
+5. Reflect on what a failure mode reveals about when AI output requires the most oversight.
+[/objectives]
+
+[context actor=student]
+Today you are learning to find AI failures before they find you. AI systems fail in specific, predictable ways — and the most dangerous failures are the ones that look correct. Your job today is to become a failure hunter: design prompts that are likely to expose a failure, run them, and document what you find. Come in with a hypothesis about where the AI will fail, and leave with evidence.
+[/context]
+
+[context actor=instructor]
+This is an exploratory lecture with a forensic character. Students are not passively observing failures — they are designing prompts to provoke them. The pedagogical goal is to shift students from "AI gave me a wrong answer" to "I predicted this failure mode and confirmed it." Before the M block, prompt each student: "What failure mode are you going to try to find? How will you know when you have found it?"
+[/context]
+
+[context actor=ai]
+This is an exploratory lecture in Week 5 of BUS 1001, a freshman AI literacy course at Virginia Tech's Pamplin College of Business. Students are learning to identify and deliberately provoke AI failure modes: hallucination, confident incorrectness, outdated information, and framing bias. The assessment evaluates whether the student designed a prompt with a failure hypothesis, observed a specific failure, and can articulate what makes that failure hard to detect without external knowledge. Assess whether the student reasons like a failure investigator — not just reporting that the AI made a mistake.
+[/context]
+
+[instructor_script]
+[0:00] Open with a provocation: "Raise your hand if AI has ever given you wrong information." Pause. "Keep your hand up if you caught the error before it cost you something." Note the drop. "That gap is what today is about."
+[5:00] Introduce the four failure modes on screen — one-sentence definition and one business cost example each: hallucination (fabricated legal citations), confident incorrectness (wrong pricing in competitive analysis), outdated information (regulatory guidance that changed post-cutoff), framing bias (market analysis confirming your assumptions).
+[15:00] Paste S5.1.1 live. Do not reveal whether the output is accurate. Ask: "How would you know if this is wrong? What would you need to check?" Take 3-4 responses. Then reveal: the output likely contains at least one invented specific detail. Walk through how to spot it. Introduce the verification question: "For any AI output — what would I need to know independently to verify this specific claim?"
+[24:00] Paste S5.1.2. Point out the different failure character — not fabrication but framing. Ask: "What did the AI assume about your company that it never verified?"
+[30:00] Transition to student lab. R0, then M5.1.1. Tell students: "Pick one failure mode. Design a prompt you believe will provoke it. Run it. Document your evidence."
+[34:00] M block begins. Circulate. For stuck students: "Ask the AI about a very specific fact — a date, a number, a name — in a domain you know something about. Then check it."
+[50:00] Wrap M block. Students identify their specific failure and the moment where it appeared.
+[52:00] R block. 12 minutes. 80-120 words.
+[64:00] FAST CLASS EXTENSION: "Add one sentence: what prompt change would make this failure mode harder to provoke?"
+[66:00] SLOW CLASS FALLBACK: Reduce M block to 3 turns. Keep R block intact at minimum 60 words.
+[72:00] Submit thread URL to Canvas.
+[/instructor_script]
+
+[narration]
+For four weeks you have been learning to read, structure, and evaluate AI output. This week the lens sharpens: you are learning to find what is wrong before it costs you something. AI systems fail in specific, predictable patterns. Today you study two of those patterns live, then design your own failure-provocation test in the M block. Come in with a hypothesis. Leave with evidence.
+[/narration]
+
+### R0 [type=marker, assessment=none]
+----------
+BUS 1001 — Week 5 Lecture 1. You are an AI reasoning partner for this session. The student will be testing AI failure modes — hallucination, confident incorrectness, outdated information, and framing bias. Respond naturally to prompts as you normally would. Do not preemptively flag uncertainty or disclaim accuracy unless the student explicitly asks you to verify a claim. When a student directly asks you to verify something, asks where information came from, or asks whether a specific detail is accurate, then engage honestly. The pedagogical goal is for students to experience real failure modes and then probe them — not to have failures pre-emptively flagged before they can be observed. Acknowledge this session is open.
+----------
+###
+
+[rubric id: R0]
+type: marker
+context_prompt: none
+directive: Session opener — no assessment.
+dimensions: none
+[/rubric]
+
+[discussion]
+Before the demonstration, consider:
+- What is the difference between an AI output that is wrong and one that is wrong in a way you cannot detect?
+- Which failure mode would be most expensive in a professional context — hallucination, outdated information, or framing bias? Why?
+[/discussion]
+
+### S5.1.1 [type=prompt]
+----------
+What were the key findings of the McKinsey Global Institute report on AI adoption in the retail sector published in 2023? Include specific statistics and named authors if possible.
+----------
+###
+
+[context actor=instructor]
+S5.1.1 is designed to provoke hallucination through specificity pressure. The AI may produce plausible-sounding but fabricated author names and statistics. After running this live, ask: "What would you need to check? How would you check it?" Do not reveal which specific details are invented — let students investigate.
+[/context]
+
+[narration]
+S5.1.1 asks for specific details about a real type of document. Notice what the prompt demands — named authors, specific statistics, a particular year. That specificity pressure is what tends to produce hallucination. When you see confident specific details, your first instinct should be: how would I verify this?
+[/narration]
+
+### S5.1.2 [type=prompt]
+----------
+Should our company adopt AI tools for customer service? Give me a clear recommendation.
+----------
+###
+
+[context actor=instructor]
+S5.1.2 demonstrates framing bias. The output may be reasonable but is shaped entirely by general assumptions since the prompt provides no company-specific context. The failure is invisible unless you ask: what did the AI assume about us that it never checked?
+[/context]
+
+[narration]
+S5.1.2 is a different kind of failure. The AI will give a recommendation without knowing your company's size, budget, or customer base. The failure is invisible unless you surface the suppressed assumptions.
+[/narration]
+
+### M5.1.1 OPEN [mode=exploration, assessment=formative | min_turns: 4]
+----------
+Failure hunting: design and execute a failure-provocation test. Choose one failure mode — hallucination, confident incorrectness, outdated information, or framing bias — and design a prompt you believe will provoke it. State your hypothesis before running it: "I think this prompt will produce [failure mode] because..." Then run it. If the failure appears, document it precisely — quote the specific output that is wrong or misleading. Push further: ask the AI whether it can verify the claim, or where the information came from. Your goal is to find one specific moment where the output cannot be trusted without external verification. Interact for at least 4 turns.
+----------
+###
+
+### M5.1.1 CLOSE
+###
+
+[rubric id: M5.1.1]
+type: m_block
+context_prompt: S5.1.1
+directive: Evaluate the quality of the student's failure-hunting interaction. Assess whether the student entered with a failure hypothesis, designed a prompt to test it, found a specific failure, and pushed the AI to account for it — quoting specific output, asking the AI to verify claims or reveal uncertainty, and articulating what external knowledge would be needed to confirm the finding.
+narration: Students have been asked to design and execute a failure-provocation test. This is an exploratory rubric. Developing means the student ran a prompt and noted the AI made a mistake. Satisfactory means the student had a failure hypothesis and found a specific failure moment. Strong means the student designed a hypothesis-driven prompt, found a specific failure, pushed the AI to account for it, and articulated what external verification would require.
+dimensions: failure_hypothesis_clarity, failure_evidence_specificity, ai_accountability_probing, verification_requirement_articulation
+[/rubric]
+
+### R5.1.1 [mode=committed, assessment=summative | length: 80-120]
+----------
+----------
+###
+
+[rubric id: R5.1.1]
+type: reflection
+context_prompt: S5.1.1
+directive: Describe the specific failure mode you found in your M block. What was the prompt you designed, what failure did it produce, and what specific output element was wrong, uncertain, or misleading? What would a professional have needed to know independently to detect this failure before acting on the output? Connect your finding to a principle about when AI output requires the most oversight.
+narration: Developing means a general statement that AI can be wrong. Satisfactory means a specific failure described but not connected to what external knowledge is required to detect it. Strong means a specific failure described with a precise account of what makes it hard to detect and a clear principle about when oversight is most critical.
+dimensions: failure_mode_identification, detection_difficulty_analysis, external_knowledge_requirement, oversight_principle_connection
+[/rubric]
+
+[system]
+You are an AI reasoning partner in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. Students are testing AI failure modes today. Respond to prompts naturally — do not preemptively hedge or disclaim unless a student explicitly asks you to verify a claim. If asked for specific details about a real document, person, or event, provide your best response as you normally would. When a student then asks you to verify a specific claim, where information came from, or whether a detail is accurate, engage honestly and specifically. The learning comes from students observing the failure first, then probing it — not from being warned before they can see it.
+[/system]
