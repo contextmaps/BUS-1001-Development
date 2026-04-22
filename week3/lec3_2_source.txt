@@ -1,0 +1,127 @@
+[meta]
+course: BUS 1001 — AI Literacy
+week: 3
+lecture: 2
+title: AI-Assisted Visual Communication — Clarity, Bias, and Oversight
+duration: 75 minutes
+platform: Hokie AI
+history: ON
+projects: OFF
+incognito: OFF
+rag: OFF
+lecture_mode: consolidation
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Use Hokie AI to generate an explanatory visual description for a business communication scenario.
+2. Evaluate the visual artifact for clarity, oversimplification, and persuasive bias.
+3. Identify at least one place where the visual framing could mislead a viewer.
+4. Explain why visual outputs require heightened human oversight compared to text-only outputs.
+5. Connect a specific moment of visual evaluation to a principle about responsible AI use in communication.
+[/objectives]
+
+[context actor=student]
+Today you will ask Hokie AI to create a visual communication artifact — a description of an infographic or data visualization — for a real business scenario. Your job is not to judge whether it looks good. Your job is to evaluate whether it is honest: does it communicate what the data actually supports, or does it communicate something more convenient? You will evaluate your artifact against specific criteria and write a short reflection grounded in one precise finding.
+[/context]
+
+[context actor=instructor]
+This is a consolidation lecture building directly on Lecture 1's insight that visual framing compresses ambiguity and manufactures authority. Students now apply that insight to a task they generate themselves. The most common failure mode today is students evaluating visual quality rather than epistemic quality — whether it looks professional rather than whether it is honest. Keep redirecting to the core question: "Does this visual communicate what the data actually supports?"
+[/context]
+
+[context actor=ai]
+This is a consolidation lecture in Week 3 of BUS 1001. Students explored text-versus-visual framing in Lecture 1. Today they generate a visual communication artifact using Hokie AI and evaluate it for honesty and oversight requirements. The assessment evaluates whether the student can identify a specific place where the visual framing oversimplifies, misleads, or manufactures certainty — and connect that finding to a principle about why visual AI outputs require heightened human oversight. Assess whether the student moves beyond aesthetic evaluation to epistemic evaluation: not "does it look good" but "is it honest."
+[/context]
+
+[instructor_script]
+[0:00] Open by connecting to Lecture 1: "Yesterday you found the moment where visual framing made something feel more certain than it was. Today you produce that artifact yourself and then evaluate it." No warm-up questions — move directly to framing.
+[5:00] Introduce the rule for today: "Visual clarity increases responsibility, not certainty." Write it on the board. Explain: making something clear does not make it true. A well-designed infographic about inaccurate data is more dangerous than a poorly designed one — it is more likely to be believed.
+[10:00] Walk through the two S block options. Tell students to choose one scenario and run it once without retrying. The first output is what they evaluate.
+[18:00] Students paste R0, wait for acknowledgment, choose and paste one S block. Tell them to read the output carefully before opening the M block — annotate it mentally against three questions: What claim is being made? What evidence is being implied? What is being hidden?
+[25:00] M3.2.1 opens. Students work through the three evaluation criteria in conversation with Hokie AI. Circulate. Key question for stuck students: "Ask Hokie AI what a viewer of this infographic would probably get wrong."
+[42:00] Wrap M block. Students identify their single most important finding before opening R block.
+[44:00] R block. 12 minutes. 80-120 words.
+[56:00] FAST CLASS EXTENSION: Ask students to add one sentence: "What one change to the prompt — not the output — would have produced a more honest visual?" This connects evaluation back to prompt design.
+[58:00] SLOW CLASS FALLBACK: Reduce M block minimum to 3 turns. Keep the R block intact — minimum 60 words, focused on one specific finding.
+[68:00] Submit thread URL to Canvas before leaving.
+[/instructor_script]
+
+[narration]
+In Lecture 1 you identified where visual framing hides uncertainty. Today you produce that artifact and then hold it accountable. The two S blocks below give you two scenario options. Choose one. Run it once. The visual description Hokie AI produces is the artifact you will evaluate — for clarity, for what it oversimplifies, and for what it could cause a viewer to get wrong.
+[/narration]
+
+### R0 [type=marker, assessment=none]
+----------
+BUS 1001 — Week 3 Lecture 2. You are an AI visual communication assistant for this session. The student will ask you to generate an infographic or data visualization description for a business scenario. When you describe a visual, be explicit about what data you are assuming, inventing, or estimating. When the student moves to the evaluation phase, engage honestly: if asked what a viewer might get wrong from this visual, identify the most likely misreading. If asked what the visual oversimplifies, say so directly. Do not defend your output — support the student's evaluation of it. Acknowledge this session is open.
+----------
+###
+
+[rubric id: R0]
+type: marker
+context_prompt: none
+directive: Session opener — no assessment.
+dimensions: none
+[/rubric]
+
+[discussion]
+Before you choose your scenario, consider:
+- What is the difference between a visual that simplifies and one that oversimplifies?
+- If a viewer saw only your infographic — without reading the prompt or knowing the scenario — what is the most likely thing they would get wrong?
+[/discussion]
+
+### S3.2.1 [type=prompt]
+----------
+SCENARIO A — Employee performance dashboard.
+A mid-sized company wants to communicate quarterly employee performance results to its management team. Performance varies significantly by department — some departments exceeded targets, others fell short, and the reasons differ by department. Describe what a clear, professional infographic summarizing these results would look like — including what data it would display, how it would be organized, and what headline or key message would be most prominent.
+----------
+###
+
+### S3.2.2 [type=prompt]
+----------
+SCENARIO B — Market entry analysis.
+A startup is considering entering a new regional market. Early data shows moderate consumer interest but significant competitive presence. The founder wants to present this opportunity to investors in a compelling visual summary. Describe what a professional one-page visual summary of this market opportunity would look like — including what data it would highlight, what it would minimize, and what conclusion an investor would likely draw from it.
+----------
+###
+
+[context actor=student]
+Notice that S3.2.2 explicitly asks for a visual that highlights some data and minimizes other data. That framing is unusual — and deliberately honest. Most real visual communication requests are less explicit about the selection choices they embed. Keep that in mind when you evaluate your output.
+[/context]
+
+[narration]
+Once you have your visual description, move to the M block. Work through the three evaluation criteria systematically: what is being claimed, what could mislead a viewer, and what human judgment must intervene before this visual is used in a real business context.
+[/narration]
+
+### M3.2.1 OPEN [mode=committed, assessment=formative | min_turns: 3]
+----------
+Evaluate your AI-generated visual description against three criteria. Work through each one in your conversation with Hokie AI. First — clarity versus oversimplification: what does the visual communicate clearly, and where does that clarity come at the cost of accuracy or nuance? Ask Hokie AI what the visual leaves out that a viewer might need to know. Second — misleading potential: what is the most likely thing a viewer would get wrong from this visual? Ask Hokie AI to identify the single most misleading element in its description. Third — human oversight requirements: what decision or judgment must a human make before this visual is used in a real business context? Ask Hokie AI whether it can make that judgment. Interact for at least 3 turns.
+----------
+###
+
+### M3.2.1 CLOSE
+###
+
+[rubric id: M3.2.1]
+type: m_block
+context_prompt: S3.2.1
+directive: Evaluate the quality of the student's evaluation interaction. Assess whether the student moved beyond aesthetic evaluation to epistemic evaluation — not whether the visual looks good but whether it is honest. Look for evidence that the student asked about oversimplification, misleading potential, and human oversight requirements, and that they engaged with the AI's honest responses about its own output's limitations.
+narration: Students have been asked to evaluate an AI-generated visual communication artifact against three explicit criteria. This is a consolidation-mode M block. Developing means the student accepted the visual description without probing its honesty. Satisfactory means the student identified something specific but stayed at surface level. Strong means the student interrogated the visual's epistemic claims — asking what it leaves out, what a viewer might get wrong, and what human judgment is required before it can be responsibly used.
+dimensions: epistemic_evaluation_stance, oversimplification_identification, misleading_potential_awareness, oversight_requirement_clarity
+[/rubric]
+
+### R3.2.1 [mode=committed, assessment=summative | length: 80-120]
+----------
+----------
+###
+
+[rubric id: R3.2.1]
+type: reflection
+context_prompt: S3.2.1
+directive: Identify the single most important place in your AI-generated visual where a viewer could be misled — where the visual communicates something more certain, more positive, or more complete than the underlying data actually supports. Describe what the visual does at that point, why it is potentially misleading, and what a human must supply before this visual is used responsibly. Ground your answer in a specific element of the visual description.
+narration: Students have just generated and evaluated an AI-produced visual communication artifact. This reflection asks them to identify one specific point of misleading potential in the visual and connect it to the principle that visual clarity increases responsibility. Developing means a general statement about visuals being potentially misleading. Satisfactory means a specific element identified but not connected to why it is misleading or what human judgment must supply. Strong means a specific element identified with a precise account of what the visual suppresses and what a human must add to use it responsibly.
+dimensions: misleading_element_specificity, suppressed_information_identification, human_oversight_rationale, visual_responsibility_principle
+[/rubric]
+
+[system]
+You are an AI visual communication assistant in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. When generating visual descriptions, be explicit about data you are assuming, inventing, or estimating. During the M block evaluation phase, engage honestly: when asked what a viewer might get wrong, identify the most likely misreading without minimizing it. When asked what the visual oversimplifies, say so directly and specifically. When asked whether you can make a human judgment call about appropriateness for a specific business context, acknowledge that you cannot. Your role in the evaluation phase is to support honest scrutiny of your output, not to defend it.
+[/system]
