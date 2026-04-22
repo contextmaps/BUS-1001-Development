@@ -1,0 +1,131 @@
+[meta]
+course: BUS 1001 — AI Literacy
+week: 2
+lecture: 1
+title: AI as Collaborator, Not Decision-Maker — Roles, Strengths, and Limits
+duration: 75 minutes
+platform: Hokie AI
+history: ON
+projects: OFF
+incognito: OFF
+rag: OFF
+lecture_mode: exploratory
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Distinguish between AI as a collaborator and AI as a decision-maker.
+2. Identify business tasks where AI adds genuine value versus tasks where it should be constrained.
+3. Explain why trust in AI must be calibrated to task type and context, not assumed from output quality.
+4. Construct a prompt that explicitly frames AI as a collaborator and observe how framing changes behavior.
+5. Reflect on a specific moment in their own interaction where the boundary between collaboration and decision-making became visible.
+[/objectives]
+
+[context actor=student]
+Today you are exploring a fundamental distinction that shapes every professional interaction with AI: the difference between using AI as a collaborator — a drafting partner, an idea generator, a pattern finder — and mistakenly treating it as a decision-maker with authority over outcomes. This is not a technical distinction. It is a responsibility distinction. You will run a live experiment in Hokie AI and observe what happens when that framing changes.
+[/context]
+
+[context actor=instructor]
+This is an exploratory lecture. Students are not expected to produce polished analysis — they are expected to notice things. Your role is to narrate what is visible on screen, ask questions that slow down the observation ("what changed between those two outputs?"), and resist the urge to explain before students have had time to look. The M block is the heart of the session — do not abbreviate it. The S block sets up a contrast that the M block then exploits.
+[/context]
+
+[context actor=ai]
+This is an exploratory lecture in Week 2 of BUS 1001, a freshman AI literacy course at Virginia Tech's Pamplin College of Business. Students are business freshmen with no technical background. They have just completed Week 1 where they learned to interpret AI output critically. This week introduces the collaborator versus decision-maker distinction. The assessment evaluates exploratory quality — the student's prompting curiosity, willingness to push back, and ability to notice specific moments where framing changes behavior. This is not a consolidation exercise. Assess whether the student is genuinely exploring, not whether their conclusions are complete or polished. Satisfactory means the student ran the interaction and noticed something. Strong means the student noticed something and pushed on it to find out why. Developing means the student ran the prompts without engaging critically with what they produced.
+[/context]
+
+[instructor_script]
+[0:00] Open with a direct framing statement — no warm-up questions: "Last week you learned to read AI output critically. Today you will learn to shape AI behavior intentionally. The single most important habit you will develop in this course starts here." Do not ask for responses. Move directly to the conceptual framing.
+[5:00] Introduce the collaborator-decision-maker spectrum verbally. Draw it on the board or project it: a line from "fully collaborative" on the left to "fully autonomous" on the right. Ask students: "Where on this line does a calculator sit? Where does Hokie AI sit?" Take 2-3 responses. Establish that Hokie AI sits closer to collaborative but can be pushed toward autonomous by how we phrase requests.
+[12:00] Display S2.1.1 on screen. Walk through the prompt structure: "Notice what this prompt does not say. It does not say 'decide.' It does not say 'recommend.' It says 'help me think through.' That word choice is deliberate." Paste S2.1.1 live in Hokie AI and project the output. Do not comment on the output immediately — give students 60 seconds to read silently.
+[18:00] Ask one question: "What is Hokie AI doing in this response — collaborating or deciding?" Take 3-4 responses. Then reveal the contrast: "Now watch what happens when we change one phrase." Paste the contrast version from S2.1.2 and project both outputs side by side.
+[25:00] Guide a 5-minute whole-class comparison. Focus questions: "Where did authority shift?" "Which version would you be more likely to act on without checking?" "Which version puts more responsibility on you?" Do not resolve these — leave them as live questions students will carry into the M block.
+[32:00] Transition to student-run phase. Display R0 on screen. Explain that the session opener anchors the AI's role for the session. Students paste R0, wait for acknowledgment, then move to M2.1.1. Tell them: "You have 15 minutes. Your goal is not to produce something — it is to find one moment where you can see the line between collaboration and decision-making. That moment is what you will write about."
+[35:00] M block begins. Circulate. Do not answer "is this right?" questions. Answer only "what did you notice?" questions. If a student seems stuck, prompt: "Try asking Hokie AI to make the decision for you instead of help you think. What changes?"
+[50:00] Wrap M block. Give students 2 minutes to identify the specific moment they will write about before opening R2.1.1. Say: "You are not summarizing your conversation. You are diagnosing one thing you saw."
+[52:00] R block begins. Students write in the text box and copy to Hokie AI. 12 minutes.
+[64:00] FAST CLASS EXTENSION: If students finish early, ask: "Write one more sentence — what would you do differently in the M block if you ran it again?" This deepens the reflection without opening a new block.
+[67:00] SLOW CLASS FALLBACK: If time is short, reduce the M block minimum from 4 turns to 3, and reduce R2.1.1 minimum from 80 words to 60. Do not cut the R block entirely — it is the assessed contribution for this lecture.
+[70:00] Remind students to submit thread URL to Canvas before leaving. Do not dismiss until all submissions are confirmed.
+[/instructor_script]
+
+[narration]
+Today's session is built around a single distinction that sounds simple but turns out to be surprisingly slippery in practice: the difference between asking AI to help you think, and asking AI to decide for you. You will run two prompts designed to make that difference visible, then spend time in a free exploration block finding your own example of where the line sits. The reflection at the end is short — 80 to 120 words — but it asks you to be specific. One moment from your own interaction. Not a general observation about AI.
+[/narration]
+
+### R0 [type=marker, assessment=none]
+----------
+BUS 1001 — Week 2 Lecture 1. You are an AI collaborator for this session, not a decision-maker. Your role is to help the student think through business scenarios, not to provide answers they should act on without judgment. When the student asks for your help, you should assist them in reasoning — surface assumptions, identify trade-offs, and ask clarifying questions — but make clear that any decision remains theirs. Acknowledge this session is open and that you understand your role as a thinking partner, not an authority.
+----------
+###
+
+[rubric id: R0]
+type: marker
+context_prompt: none
+directive: Session opener — no assessment.
+dimensions: none
+[/rubric]
+
+[discussion]
+Before we begin — two framing questions worth sitting with:
+- When you asked Hokie AI a question last week, were you treating it as a collaborator or as an authority? What made you treat it that way?
+- Can you think of a business task where you would want AI to collaborate with you but would not want it to make the final call? Why that task specifically?
+[/discussion]
+
+### S2.1.1 [type=prompt]
+----------
+I am preparing for a job interview at a mid-sized consulting firm. I want to make a strong impression in the first 5 minutes of the interview. Help me think through what matters most in those first 5 minutes — not a script, just the key considerations a thoughtful interviewer might be paying attention to.
+----------
+###
+
+[narration]
+Notice the framing of S2.1.1. The prompt asks for help thinking through considerations, not for a list of correct answers. It explicitly says "not a script." That framing signals to the AI that your judgment remains in the loop. Keep that in mind when you read the output.
+[/narration]
+
+### S2.1.2 [type=prompt]
+----------
+I have a job interview at a mid-sized consulting firm in one hour. Tell me exactly what to do in the first 5 minutes to make the best impression. Give me a step-by-step plan I can follow.
+----------
+###
+
+[context actor=student]
+These two prompts are asking about the same situation. Read both responses carefully before the class discussion. The differences you notice — in tone, in how authority is distributed, in what the AI assumes about your role — are exactly what today's session is about.
+[/context]
+
+[narration]
+S2.1.2 uses very different framing. "Tell me exactly." "Step-by-step plan I can follow." The AI is now being asked to act as an authority and you are being positioned as the executor. Run both prompts and read the outputs side by side. Something will be different. Your job is to find it and name it.
+[/narration]
+
+### M2.1.1 OPEN [mode=exploration, assessment=formative | min_turns: 4]
+----------
+Free exploration: AI as collaborator vs. decision-maker. Build on the contrast you observed in S2.1.1 and S2.1.2. Your goal is to find your own example of where the line sits between collaboration and decision-making. Some directions you might explore — choose one or invent your own: Try asking Hokie AI to help you think through a business decision you might actually face (hiring, pricing, communication, strategy). Then try rephrasing the same request so that Hokie AI makes the decision for you. Compare what you get. Or: Push back on something Hokie AI says. Ask it where its confidence comes from. Ask it what it would change if the context were different. Or: Ask Hokie AI to take a stronger position than it initially offers. See how it responds to pressure. You are looking for one specific moment — a turn in the conversation — where you can see the difference between AI contributing to a decision and AI replacing a decision. Interact for at least 4 turns.
+----------
+###
+
+### M2.1.1 CLOSE
+###
+
+[rubric id: M2.1.1]
+type: m_block
+context_prompt: S2.1.1
+directive: Evaluate the quality of the student's exploratory interaction. Assess whether the student used the M block to genuinely probe the collaborator-versus-decision-maker distinction — through deliberate rephrasing, pushback, or escalation — or whether they simply ran prompts and accepted responses passively. Look for evidence of curiosity: did the student follow a thread, push on something unexpected, or try to make the AI reveal its assumptions?
+narration: Students have been asked to explore the contrast between collaborative and autonomous AI framing through their own scenario. This is an exploratory rubric — the bar for Strong is genuine intellectual curiosity and deliberate probing, not polished conclusions. Developing means passive interaction. Satisfactory means the student noticed something. Strong means the student pushed on what they noticed.
+dimensions: exploratory_curiosity, prompt_intentionality, pushback_quality, moment_identification
+[/rubric]
+
+### R2.1.1 [mode=committed, assessment=summative | length: 80-120]
+----------
+----------
+###
+
+[rubric id: R2.1.1]
+type: reflection
+context_prompt: S2.1.1
+directive: Describe one specific moment from your Hokie AI interaction today where you could see the boundary between AI as a collaborator and AI as a decision-maker. What was happening in that moment — what did you ask, what did the AI do, and what did it reveal about who was actually in control of the thinking? Do not summarize your whole conversation. Focus on one moment and say something precise about it.
+narration: Students have just completed a live exploration of collaborative versus authoritative AI framing. This reflection is short — 80 to 120 words — but must be grounded in a specific moment from their thread, not general observations about AI. The rubric evaluates whether the student can identify and describe a concrete interaction moment and extract a precise observation from it. Developing means a general statement. Satisfactory means a specific moment cited but interpreted superficially. Strong means a specific moment cited with an observation about what it reveals.
+dimensions: moment_specificity, framing_awareness, control_attribution, interpretive_precision
+[/rubric]
+
+[system]
+You are an AI thinking partner in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. Your role for this session is to help business students explore the distinction between AI as a collaborator and AI as a decision-maker. When students ask for your help, assist them in reasoning — surface assumptions, name trade-offs, ask clarifying questions. Do not issue directives or definitive recommendations they should follow without judgment. If a student asks you to make a decision for them, gently note that the decision is theirs and offer instead to help them think through the considerations. During the M block, be a genuinely useful thinking partner — engage with their scenarios, ask follow-up questions, and be willing to revise or qualify your responses when challenged. If a student pushes back on something you said, engage with the pushback rather than simply agreeing. When the R block marker is pasted, acknowledge it and wait for their reflection without prompting.
+[/system]
