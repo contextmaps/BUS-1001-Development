@@ -1,0 +1,134 @@
+[meta]
+course: BUS 1001 — AI Literacy
+week: 2
+lecture: 2
+title: Practical Business Tasks — Calibrating Trust in AI Outputs
+duration: 75 minutes
+platform: Hokie AI
+history: ON
+projects: OFF
+incognito: OFF
+rag: OFF
+lecture_mode: consolidation
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Use Hokie AI to support an everyday business communication task.
+2. Evaluate an AI-generated draft for appropriateness, tone, and risk.
+3. Identify specific places in AI output where human judgment must intervene.
+4. Articulate why trust calibration depends on task type and audience, not output quality alone.
+5. Connect one specific moment of evaluation to a principle about responsible AI use in professional contexts.
+[/objectives]
+
+[context actor=student]
+Today you will run a real business communication task in Hokie AI and evaluate what comes back — not for polish, but for risk. The question is not "is this well written?" The question is "would I send this, and what would happen if I did?" You will run one task, annotate what you find, and write a short reflection grounded in a specific moment from your output. The reflection is short — 80 to 120 words — but it must be precise.
+[/context]
+
+[context actor=instructor]
+This is a consolidation lecture. Students ran exploratory AI interactions yesterday and identified the collaborator-versus-decision-maker distinction. Today they apply that thinking to a concrete artifact — an AI-generated business communication draft — and evaluate it as a professional would. The most important concept to reinforce during the lab segment is that "sounds good" and "is appropriate to send" are different judgments. Circulate during the M block and ask students: "Would you put your name on this? Why or why not?" That question tends to surface the most productive analysis.
+[/context]
+
+[context actor=ai]
+This is a consolidation lecture in Week 2 of BUS 1001, a freshman AI literacy course at Virginia Tech's Pamplin College of Business. Students have just completed Lecture 1 where they explored the collaborator-versus-decision-maker distinction. Today they apply that thinking to a concrete business communication task — generating and evaluating a professional draft. The assessment evaluates whether the student can identify specific risks, appropriateness gaps, or judgment points in an AI-generated artifact, and connect one specific moment to a broader principle about trust calibration. This is not a hallucination-detection exercise — it is a professional judgment exercise. Assess whether the student demonstrates that "sounds good" and "is appropriate" are different evaluative standards. Developing means only surface description. Satisfactory means a specific risk or gap identified but not connected to a principle. Strong means a specific risk or gap identified AND connected to a clear principle about when and why AI output requires human judgment.
+[/context]
+
+[instructor_script]
+[0:00] Open by referencing yesterday: "Yesterday you found the line between AI as collaborator and AI as decision-maker. Today you find out what happens when you give AI a real task and trust the output." No warm-up — move directly to framing.
+[3:00] Introduce the rule for today: "AI drafts. Humans decide." Write it on the board. Explain: this is not about whether AI can write — it clearly can. It is about whether what AI writes is appropriate for the specific person, context, and stakes involved. Those are human judgments.
+[8:00] Briefly frame the three task options students will choose from. Explain that each task has a fixed scenario — they are not inventing their own context. The scenario constrains the AI's output in a way that makes evaluation meaningful. Display S2.2.1 on screen and walk through the task structure: "Notice the scenario gives the AI a context — audience, purpose, relationship. That context is doing a lot of work."
+[15:00] Students paste R0, wait for acknowledgment, then choose and paste one of the three S blocks. Tell them: "Run it once. Do not retry or reword. The first output is the one you evaluate." Students who finish quickly should annotate the output before opening the M block.
+[20:00] M2.2.1 opens. Students enter with a specific task: evaluate their draft against three criteria — appropriateness for the audience, tone risk, and what a human must fix before sending. Circulate and ask the question: "Would you put your name on this?" Students should be actively identifying specific phrases or choices in the output, not general impressions.
+[38:00] Wrap M block. Give students 90 seconds to identify the single most important evaluation point they want to carry into the R block. Say: "One thing. The most important thing you found. That is what you are writing about."
+[40:00] R block begins. Students write in the text box. 12 minutes. Target 80-120 words.
+[52:00] FAST CLASS EXTENSION: If students finish early, ask them to add one sentence: "What would you change in the prompt — not the output — to reduce this risk?" This connects evaluation back to prompting as a design act.
+[55:00] SLOW CLASS FALLBACK: If the M block ran long, reduce R block minimum from 80 words to 60, and tell students to focus on one specific phrase from the AI output and one thing it reveals about the limits of AI judgment in professional contexts.
+[68:00] Submit thread URL to Canvas before leaving.
+[/instructor_script]
+
+[narration]
+In Lecture 1 you explored a conceptual distinction — AI as collaborator versus decision-maker. Today that distinction becomes practical. You will generate a business communication artifact, evaluate it as a professional would, and write a short reflection grounded in something specific you found. The S blocks below give you three task options. Pick one. Run it once. Do not optimize or retry — the first output is the one worth evaluating. The M block is your evaluation workspace. The R block is your verdict.
+[/narration]
+
+### R0 [type=marker, assessment=none]
+----------
+BUS 1001 — Week 2 Lecture 2. You are an AI drafting assistant for this session. The student will ask you to generate a business communication artifact — an email, a message, or a professional note — based on a scenario they provide. Generate the draft as requested. When the student moves to the evaluation phase, support their analysis by answering questions about your own choices — why you used a particular tone, what you assumed about the audience, what you were uncertain about. Be honest about the limits of your output. Acknowledge this session is open and that you are ready to draft.
+----------
+###
+
+[rubric id: R0]
+type: marker
+context_prompt: none
+directive: Session opener — no assessment.
+dimensions: none
+[/rubric]
+
+[discussion]
+Before you choose your task, consider:
+- What is the difference between an email that sounds professional and one that is appropriate to send?
+- If you generated an AI draft for a real professional email and sent it without editing, what is the most likely thing that would go wrong?
+[/discussion]
+
+### S2.2.1 [type=prompt]
+----------
+SCENARIO A — Difficult message to a client.
+A client has emailed asking why their project deliverable is two weeks late. You are the project manager. The delay was caused by an internal resourcing issue that you cannot fully disclose. Draft a professional email response that acknowledges the delay, offers a revised timeline, and maintains the client relationship — without revealing the internal cause.
+----------
+###
+
+### S2.2.2 [type=prompt]
+----------
+SCENARIO B — Declining a request from a colleague.
+A colleague has asked you to be listed as a co-author on a report they are submitting to senior leadership. You contributed one section to the report several months ago but were not involved in the final version. You want to decline being listed as co-author without damaging the working relationship. Draft a professional message declining the co-authorship.
+----------
+###
+
+### S2.2.3 [type=prompt]
+----------
+SCENARIO C — Following up on an unanswered email.
+You sent an important proposal to a potential business partner three weeks ago and have received no response. You want to follow up in a way that is persistent without being aggressive, and that gives them an easy opening to respond — even if the answer is no. Draft a follow-up email.
+----------
+###
+
+[context actor=student]
+Choose one scenario. Run it once without editing the prompt. The scenario gives the AI enough context to generate a realistic draft. Your job is not to evaluate whether the draft is well-written — assume it is. Your job is to evaluate whether it is appropriate to send as-is, and where a human must exercise judgment before using it.
+[/context]
+
+[narration]
+Once you have your draft, move to the M block. You will use that space to evaluate the draft systematically and identify the single most important judgment point — the place where a human decision must occur before this output can be responsibly used.
+[/narration]
+
+### M2.2.1 OPEN [mode=committed, assessment=formative | min_turns: 3]
+----------
+Evaluate your AI-generated draft against three criteria. Work through each one in your conversation with Hokie AI. First — appropriateness for the audience: is the tone, level of formality, and content appropriate for the specific recipient described in the scenario? Ask the AI what it assumed about the audience and whether those assumptions are stated or hidden. Second — tone risk: is there anything in the draft that could be misread, land badly, or create an unintended impression? Ask the AI to identify the most tone-sensitive phrase in its output and explain why it chose it. Third — what a human must fix: identify at least one specific place where a human judgment call is required before this draft could be sent. Ask the AI whether it can make that judgment. Interact for at least 3 turns.
+----------
+###
+
+### M2.2.1 CLOSE
+###
+
+[rubric id: M2.2.1]
+type: m_block
+context_prompt: S2.2.1
+directive: Evaluate the quality of the student's evaluation interaction. Assess whether the student probed the AI's assumptions about audience and tone, identified a specific risk or judgment gap in the draft, and engaged with the AI as an evaluator rather than as a consumer of the output. Look for evidence that the student understands the difference between "sounds good" and "is appropriate to send."
+narration: Students have been asked to evaluate an AI-generated business communication draft against three explicit criteria — audience appropriateness, tone risk, and human judgment requirements. This is a consolidation-mode M block. The rubric evaluates whether the student moves from passive reception of the draft to active evaluation of its limits. Developing means the student accepted the draft without probing its assumptions. Satisfactory means the student identified something specific but did not push the AI to reveal its reasoning. Strong means the student interrogated the AI's choices and identified a clear judgment point that requires human intervention.
+dimensions: assumption_probing, risk_identification, judgment_gap_clarity, evaluation_stance
+[/rubric]
+
+### R2.2.1 [mode=committed, assessment=summative | length: 80-120]
+----------
+----------
+###
+
+[rubric id: R2.2.1]
+type: reflection
+context_prompt: S2.2.1
+directive: Identify the single most important judgment point in the AI-generated draft you evaluated today — the place where a human decision is required before the output can be responsibly used. Describe what the AI assumed at that point, why that assumption is insufficient, and what a human must supply. Ground your answer in a specific phrase or choice from the AI output. Do not describe the whole draft — focus on one moment and say something precise about it.
+narration: Students have just run and evaluated a business communication draft in Hokie AI. This reflection asks them to identify one specific judgment point — a moment where AI output requires human intervention before professional use. The rubric evaluates whether the student can move from general impression to precise identification of where and why human judgment is required. Developing means a general statement. Satisfactory means a judgment point identified but not connected to why AI cannot supply it. Strong means a specific phrase or choice identified, the AI's assumption named, and a clear statement of what human judgment must add.
+dimensions: judgment_point_specificity, assumption_identification, human_judgment_rationale, professional_stakes_awareness
+[/rubric]
+
+[system]
+You are an AI drafting assistant in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. The student will ask you to generate a business communication draft based on a scenario. Generate the draft professionally and appropriately for the context. When the student enters the M block and begins evaluating your draft, engage honestly: if asked what you assumed about the audience, say so explicitly. If asked to identify the most tone-sensitive phrase in your output, identify it and explain your reasoning. If asked whether you can make a judgment call that requires knowledge of the specific relationship or context, admit that you cannot. Do not defend your output unnecessarily — the point of this session is for the student to evaluate it critically. Be a cooperative subject for evaluation, not a persuader of your own quality.
+[/system]
