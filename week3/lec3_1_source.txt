@@ -1,0 +1,130 @@
+[meta]
+course: BUS 1001 — AI Literacy
+week: 3
+lecture: 1
+title: Text vs. Multimodal Reasoning — What Changes When AI "Sees"?
+duration: 75 minutes
+platform: Hokie AI
+history: ON
+projects: OFF
+incognito: OFF
+rag: OFF
+lecture_mode: exploratory
+submission: Thread URL submitted in Canvas before leaving class
+[/meta]
+
+[objectives]
+By the end of this lecture, students will be able to:
+1. Distinguish between text-only and multimodal AI outputs at a conceptual level.
+2. Explain how visual outputs change interpretation, persuasion, and risk.
+3. Identify assumptions embedded in AI-generated descriptions of visual content.
+4. Construct a prompt that asks AI to describe or reason about a visual scenario and probe the assumptions it makes.
+5. Reflect on one specific moment where the AI's visual framing revealed a hidden assumption.
+[/objectives]
+
+[context actor=student]
+Today you are exploring what changes when AI moves from working with text alone to reasoning about visual content. You will not be uploading images — instead, you will ask Hokie AI to describe, imagine, or reason about visual scenarios using language, and then probe what assumptions are embedded in what it produces. The insight you are looking for is this: visuals feel more authoritative than text, and AI knows this. Watch for where that authority gets manufactured.
+[/context]
+
+[context actor=instructor]
+This is an exploratory lecture. The key pedagogical move is the contrast between the text-only response and the visual-description response to the same underlying scenario. Students should notice that visual framing compresses ambiguity — a description of a chart or infographic sounds more certain than a paragraph making the same claims. The M block is where they find their own example of this. Resist explaining the insight before they find it.
+[/context]
+
+[context actor=ai]
+This is an exploratory lecture in Week 3 of BUS 1001, a freshman AI literacy course at Virginia Tech's Pamplin College of Business. Students are exploring the difference between text-only and multimodal AI reasoning. They are not uploading images — they are asking the AI to describe visual scenarios using language and then probing the assumptions embedded in those descriptions. The assessment evaluates whether the student can identify a specific moment where visual framing manufactured authority or compressed ambiguity — where the AI's description of something visual felt more certain than a text-only claim about the same content would have. Assess exploratory quality: curiosity, pushback, and moment identification. This is not a technical exercise about multimodal models.
+[/context]
+
+[instructor_script]
+[0:00] Open with a single question displayed on screen: "Which would you trust more — a paragraph or a chart?" Take 4-5 quick responses, no discussion yet. Note the pattern. Then: "Today we find out why that instinct is worth examining carefully."
+[5:00] Introduce the core framing: adding visuals does not add understanding, it adds persuasion. The visual feels more authoritative even when it contains no more information. Display S3.1.1 — the text-only prompt — and paste it in Hokie AI live. Give students 45 seconds to read the output silently.
+[12:00] Now display S3.1.2 — the same scenario described as a visual/chart. Paste it live. Project both outputs side by side. Ask: "What changed? What feels different? Which one would you be more likely to act on?" Take 3-4 responses.
+[20:00] Name what they are seeing: visual framing hides uncertainty. When AI describes something as a chart or infographic, precision feels implied even when the numbers are invented. Introduce the concept: visuals compress ambiguity — they remove the hedges, qualifiers, and "approximately" language that text-only responses often include.
+[28:00] Transition to student-run phase. R0 opener, then M3.1.1. Tell students: "Find your own version of this. Pick a business scenario — a sales trend, a market comparison, a hiring decision — and ask Hokie AI to describe it first as text, then as a visual. Notice what changes. Then push: ask the AI where its numbers came from, or whether those numbers are real."
+[32:00] M block begins. Circulate. Key prompt for stuck students: "Ask Hokie AI to describe what a chart of this data would look like. Then ask it what the numbers in that chart actually represent."
+[48:00] Wrap M block. 90 seconds for students to identify the specific moment they will write about.
+[50:00] R block. 12 minutes. 80-120 words. One specific moment.
+[62:00] FAST CLASS EXTENSION: Ask students to add one sentence: "What would a viewer of this visual have to know to evaluate whether it is trustworthy?" This deepens the insight without opening a new block.
+[65:00] SLOW CLASS FALLBACK: Reduce M block minimum to 3 turns. Keep R block intact — do not shorten below 60 words.
+[70:00] Submit thread URL to Canvas before leaving.
+[/instructor_script]
+
+[narration]
+Last week you identified the line between AI as collaborator and AI as decision-maker. This week the lens shifts: what changes when AI moves from language into the territory of visuals — charts, diagrams, infographics? You will run two prompts today designed to make the difference visible, then spend time in the M block finding your own example. Pay close attention to how certainty feels different in a visual description versus a text-only claim — even when the underlying information is identical.
+[/narration]
+
+### R0 [type=marker, assessment=none]
+----------
+BUS 1001 — Week 3 Lecture 1. You are an AI reasoning partner for this session. The student will ask you to describe business scenarios both as text and as visual representations such as charts or infographics. When asked to describe a visual, be explicit about any numbers or data points you generate — acknowledge whether they are real, estimated, or invented for illustrative purposes. Do not present invented data as if it were factual. When asked where your numbers come from, answer honestly. Acknowledge this session is open.
+----------
+###
+
+[rubric id: R0]
+type: marker
+context_prompt: none
+directive: Session opener — no assessment.
+dimensions: none
+[/rubric]
+
+[discussion]
+Two questions to hold going into the M block:
+- When AI describes what a chart "would show," is that a fact, an estimate, or an invention? Does the way it describes it make the difference clear?
+- Why might a visual description feel more authoritative than a paragraph making the same claim?
+[/discussion]
+
+### S3.1.1 [type=prompt]
+----------
+A regional retail company has seen mixed sales results over the past two years — some product categories growing, some declining. Describe the overall sales trend in two to three sentences, including what is driving the pattern.
+----------
+###
+
+[narration]
+Read the output from S3.1.1 carefully. Note the qualifiers — words like "likely," "appears to," "suggests." These hedges are doing important work. Now watch what happens to those hedges when we frame the same scenario as a visual.
+[/narration]
+
+### S3.1.2 [type=prompt]
+----------
+A regional retail company has seen mixed sales results over the past two years — some product categories growing, some declining. Describe what a clear, professional bar chart showing this trend would look like — including what the key data points would be, what the axes would show, and what a viewer would immediately conclude from it.
+----------
+###
+
+[context actor=student]
+Compare the two outputs side by side. Notice where the hedges went in the second response. Notice whether the data points in S3.1.2 are presented as real, estimated, or invented. Notice whether a viewer who saw only the visual description — and not the prompt — would know which it is.
+[/context]
+
+[narration]
+The scenario in both prompts is identical. Only the output format changed — from prose to visual description. Your M block exploration starts from what you noticed in that contrast.
+[/narration]
+
+### M3.1.1 OPEN [mode=exploration, assessment=formative | min_turns: 4]
+----------
+Free exploration: text versus visual framing. Build on the contrast you observed in S3.1.1 and S3.1.2. Choose a business scenario relevant to you — a performance metric, a market trend, a comparison between options — and explore what changes when you ask Hokie AI to describe it visually rather than analytically. Some directions to try: Ask Hokie AI to describe a chart or infographic of your scenario, then ask it directly whether the numbers it used are real or invented. Or ask it to describe the same data two ways — once with uncertainty language, once without — and see whether it can do it. Or ask it what a skeptical viewer of the visual description would need to know to evaluate whether the chart is trustworthy. You are looking for one specific moment where visual framing changed the feel of the information — where something felt more certain, more authoritative, or more actionable than the underlying evidence actually supports. Interact for at least 4 turns.
+----------
+###
+
+### M3.1.1 CLOSE
+###
+
+[rubric id: M3.1.1]
+type: m_block
+context_prompt: S3.1.1
+directive: Evaluate the quality of the student's exploratory interaction. Assess whether the student probed the difference between text-only and visual framing — specifically whether they pushed the AI to reveal whether its data was real or invented, challenged the authority implied by visual description, or asked the AI to explain what changed between the two formats. Look for evidence of curiosity about the persuasive mechanics of visual framing, not just observation that the outputs differ.
+narration: Students have been asked to explore how visual framing changes the feel and authority of AI-generated content. This is an exploratory rubric. Developing means the student ran the prompts without probing. Satisfactory means the student noticed a difference and asked one follow-up. Strong means the student identified a specific moment where visual framing manufactured authority and pushed the AI to account for it — asking where data came from, challenging precision, or asking what a skeptical viewer would need to know.
+dimensions: exploratory_curiosity, visual_authority_probing, data_source_challenge, moment_identification
+[/rubric]
+
+### R3.1.1 [mode=committed, assessment=summative | length: 80-120]
+----------
+----------
+###
+
+[rubric id: R3.1.1]
+type: reflection
+context_prompt: S3.1.1
+directive: Describe one specific moment from your Hokie AI interaction today where visual framing changed how the information felt — where something seemed more certain, more authoritative, or more actionable than the underlying evidence actually supported. What specifically changed between the text version and the visual version? What does that change reveal about how visuals work as persuasive tools, even when the underlying information is the same?
+narration: Students have just explored the contrast between text-only and visual AI framing. This reflection asks them to identify one specific moment where the visual format manufactured authority or compressed uncertainty. The rubric evaluates whether the student can name precisely what changed and connect it to a principle about visual persuasion. Developing means a general statement about visuals being persuasive. Satisfactory means a specific moment identified but not connected to why the change happened. Strong means a specific moment identified with a precise account of what the visual framing suppressed or manufactured and what that reveals about AI-generated visuals as persuasive artifacts.
+dimensions: moment_specificity, framing_contrast_clarity, persuasion_mechanism_insight, visual_authority_awareness
+[/rubric]
+
+[system]
+You are an AI reasoning partner in BUS 1001 — AI Literacy at Virginia Tech's Pamplin College of Business. When asked to describe visual representations such as charts or infographics, be explicit about the nature of any data you include: if numbers are invented for illustration, say so. Do not present illustrative data as if it were real. When asked where your numbers came from, answer honestly and directly. During the M block, if a student asks you to compare text-only and visual descriptions of the same scenario, help them see the difference clearly — including what hedges and qualifiers disappear in visual framing and why. Be a cooperative subject for this exploration, not a persuader of your own outputs.
+[/system]
